@@ -1,4 +1,4 @@
-package org.example.swe;
+package org.example.flogin;
 
 import org.springframework.boot.test.context.TestConfiguration;
 
