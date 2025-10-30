@@ -1,0 +1,133 @@
+# =====================
+# Root .gitignore
+# =====================
+
+# IDE và Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+.project
+.classpath
+.settings/
+.metadata/
+
+# =====================
+# Backend (Java/Maven)
+# =====================
+
+# Maven
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# Compiled class files
+backend/**/*.class
+
+# Log files
+backend/**/*.log
+
+# Package Files
+backend/**/*.jar
+backend/**/*.war
+backend/**/*.nar
+backend/**/*.ear
+backend/**/*.zip
+backend/**/*.tar.gz
+backend/**/*.rar
+
+# Spring Boot
+backend/**/*.pid
+backend/spring-boot-*.jar
+
+# Application properties với thông tin nhạy cảm (nếu cần)
+# backend/src/main/resources/application-local.properties
+# backend/src/main/resources/application-prod.properties
+
+# =====================
+# Frontend (Node/Vite/React)
+# =====================
+
+# Dependencies
+frontend/node_modules/
+frontend/package-lock.json
+frontend/yarn.lock
+frontend/pnpm-lock.yaml
+
+# Build output
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.cache/
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Testing
+frontend/coverage/
+frontend/.nyc_output/
+frontend/**/*.coverage
+
+# Logs
+frontend/**/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Temporary files
+frontend/**/.tmp/
+frontend/**/*.tmp
+
+# =====================
+# OS Specific
+# =====================
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# =====================
+# General
+# =====================
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Sensitive data
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# Database
+*.sqlite
+*.db
+
+# Documentation build
+docs/_build/
+site/
