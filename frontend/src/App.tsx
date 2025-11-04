@@ -6,32 +6,37 @@ import ProductList from "./components/products/product-list"
 import ProductForm from "./components/products/product-form"
 import ProductDetail from "./components/products/product-detail"
 import "./assets/css/page.css"
+import type { Product } from "./models/Product"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentView, setCurrentView] = useState<"list" | "add" | "edit">("list")
-  const [selectedProduct, setSelectedProduct] = useState(null)
-  const [detailProduct, setDetailProduct] = useState<any>(null)
-  const [products, setProducts] = useState([
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null)
+  const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
-      title: "The Great Gatsby",
+      name: "The Great Gatsby",
       author: "F. Scott Fitzgerald",
       price: 12.99,
-      year: 1925,
-      image: "/great-gatsby-book-cover.png",
+      publicationYear: 1925,
+      imageUrl: "/great-gatsby-book-cover.png",
+      description: "A classic American novel set in the Jazz Age",
+      quantity: 15,
     },
     {
       id: 2,
-      title: "To Kill a Mockingbird",
+      name: "To Kill a Mockingbird",
       author: "Harper Lee",
       price: 14.99,
-      year: 1960,
-      image: "/to-kill-a-mockingbird-cover.png",
+      publicationYear: 1960,
+      imageUrl: "/to-kill-a-mockingbird-cover.png",
+      description: "A gripping tale of racial injustice and childhood innocence",
+      quantity: 20,
     },
   ])
 
-  const handleAddProduct = (product: any) => {
+  const handleAddProduct = (product: Product) => {
     if (selectedProduct) {
       setProducts(products.map((p) => (p.id === selectedProduct.id ? { ...product, id: selectedProduct.id } : p)))
       setSelectedProduct(null)
@@ -41,7 +46,7 @@ export default function App() {
     setCurrentView("list")
   }
 
-  const handleEditProduct = (product: any) => {
+  const handleEditProduct = (product: Product) => {
     setSelectedProduct(product)
     setCurrentView("edit")
   }
@@ -55,7 +60,7 @@ export default function App() {
     setCurrentView("list")
   }
 
-  const handleViewDetail = (product: any) => {
+  const handleViewDetail = (product: Product) => {
     setDetailProduct(product)
   }
 

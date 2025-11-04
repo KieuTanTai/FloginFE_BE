@@ -4,15 +4,8 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { Save, Plus, X } from "lucide-react"
 import "../../assets/css/products/product-form.css"
-
-interface Product {
-  id?: number
-  title: string
-  author: string
-  price: number
-  year: number
-  image?: string
-}
+import type { Product } from "../../models/Product"
+import { createEmptyProduct } from "../../models/Product"
 
 interface ProductFormProps {
   product?: Product | null
@@ -21,27 +14,21 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
-  const [formData, setFormData] = useState<Product>({
-    title: "",
-    author: "",
-    price: 0,
-    year: new Date().getFullYear(),
-    image: "",
-  })
+  const [formData, setFormData] = useState<Product>(createEmptyProduct())
   const [imagePreview, setImagePreview] = useState<string>("")
 
   useEffect(() => {
     if (product) {
       setFormData(product)
-      setImagePreview(product.image || "")
+      setImagePreview(product.imageUrl || "")
     }
   }, [product])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? Number.parseFloat(value) : name === "year" ? Number.parseInt(value) : value,
+      [name]: name === "price" ? Number.parseFloat(value) : name === "publicationYear" || name === "quantity" ? Number.parseInt(value) : value,
     }))
   }
 
@@ -54,7 +41,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
         setImagePreview(result)
         setFormData((prev) => ({
           ...prev,
-          image: result,
+          imageUrl: result,
         }))
       }
       reader.readAsDataURL(file)
@@ -91,12 +78,12 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
           </div>
 
           <div className="form-group">
-            <label htmlFor="title">Tên Sách *</label>
+            <label htmlFor="name">Tên Sách *</label>
             <input
               type="text"
-              id="title"
-              name="title"
-              value={formData.title}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
               placeholder="Nhập tên sách"
@@ -116,14 +103,26 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
             />
           </div>
 
+          <div className="form-group">
+            <label htmlFor="description">Mô Tả</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description || ""}
+              onChange={handleChange}
+              placeholder="Nhập mô tả sách"
+              rows={4}
+            />
+          </div>
+
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="year">Năm Xuất Bản *</label>
+              <label htmlFor="publicationYear">Năm Xuất Bản *</label>
               <input
                 type="number"
-                id="year"
-                name="year"
-                value={formData.year}
+                id="publicationYear"
+                name="publicationYear"
+                value={formData.publicationYear}
                 onChange={handleChange}
                 required
                 min="1000"
@@ -142,6 +141,19 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                 required
                 min="0"
                 step="0.01"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="quantity">Số Lượng *</label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={formData.quantity || 10}
+                onChange={handleChange}
+                required
+                min="0"
               />
             </div>
           </div>

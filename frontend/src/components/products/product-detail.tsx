@@ -1,14 +1,6 @@
 "use client"
 import "../../assets/css/products/product-detail.css"
-
-interface Product {
-  id: number
-  title: string
-  author: string
-  price: number
-  year: number
-  image?: string
-}
+import type { Product } from "../../models/Product"
 
 interface ProductDetailProps {
   product: Product
@@ -20,8 +12,8 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
     <div className="detail-overlay" onClick={onClose}>
       <div className="detail-modal" onClick={(e) => e.stopPropagation()}>
         <div className="detail-image-section">
-          {product.image && (
-            <img src={product.image || "/placeholder.svg"} alt={product.title} className="detail-image" />
+          {product.imageUrl && (
+            <img src={product.imageUrl || "/placeholder.svg"} alt={product.name} className="detail-image" />
           )}
           <button className="close-btn" onClick={onClose}>
             ✕
@@ -29,7 +21,14 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
         </div>
 
         <div className="detail-info-section">
-          <h2 className="detail-title">{product.title}</h2>
+          <h2 className="detail-title">{product.name}</h2>
+          
+          {product.description && (
+            <div className="detail-description">
+              <p>{product.description}</p>
+            </div>
+          )}
+          
           <div className="detail-meta">
             <div className="meta-item">
               <span className="meta-label">Tác giả:</span>
@@ -37,7 +36,11 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
             </div>
             <div className="meta-item">
               <span className="meta-label">Năm xuất bản:</span>
-              <span className="meta-value">{product.year}</span>
+              <span className="meta-value">{product.publicationYear}</span>
+            </div>
+            <div className="meta-item">
+              <span className="meta-label">Số lượng:</span>
+              <span className="meta-value">{product.quantity || 0}</span>
             </div>
             <div className="meta-item">
               <span className="meta-label">Giá:</span>

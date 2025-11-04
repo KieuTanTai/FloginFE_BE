@@ -1,15 +1,7 @@
 "use client"
 import { Plus, Edit, Trash2 } from "lucide-react"
 import "../../assets/css/products/product-list.css"
-
-interface Product {
-  id: number
-  title: string
-  author: string
-  price: number
-  year: number
-  image?: string
-}
+import type { Product } from "../../models/Product"
 
 interface ProductListProps {
   products: Product[]
@@ -38,19 +30,20 @@ export default function ProductList({ products, onEdit, onDelete, onAdd, onViewD
           {products.map((product) => (
             <div key={product.id} className="product-card">
               <div className="product-image" onClick={() => onViewDetail(product)}>
-                {product.image && <img src={product.image || "/placeholder.svg"} alt={product.title} />}
+                {product.imageUrl && <img src={product.imageUrl || "/placeholder.svg"} alt={product.name} />}
               </div>
               <div className="product-info" onClick={() => onViewDetail(product)}>
-                <h3 className="product-title">{product.title}</h3>
+                <h3 className="product-title">{product.name}</h3>
                 <p className="product-author">Tác giả: {product.author}</p>
-                <p className="product-year">Năm: {product.year}</p>
+                <p className="product-year">Năm: {product.publicationYear}</p>
+                <p className="product-quantity">Số lượng: {product.quantity || 0}</p>
                 <p className="product-price">${product.price.toFixed(2)}</p>
               </div>
               <div className="product-actions">
                 <button className="edit-btn" onClick={() => onEdit(product)}>
                   <Edit size={16} /> Sửa
                 </button>
-                <button className="delete-btn" onClick={() => onDelete(product.id)}>
+                <button className="delete-btn" onClick={() => product.id && onDelete(product.id)}>
                   <Trash2 size={16} /> Xóa
                 </button>
               </div>
