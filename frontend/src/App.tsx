@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Sidebar from "./components/sidebar/sidebar"
 import ProductList from "./components/products/product-list"
 import ProductForm from "./components/products/product-form"
@@ -9,6 +9,7 @@ import LoginForm from "./components/auth/login-form"
 import "./assets/css/page.css"
 import type { Product } from "./models/Product"
 import type { Account } from "./models/Account"
+import { productService } from "./services/productService"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -16,37 +17,48 @@ export default function App() {
   const [currentView, setCurrentView] = useState<"list" | "add" | "edit">("list")
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [detailProduct, setDetailProduct] = useState<Product | null>(null)
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      name: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      price: 12.99,
-      publicationYear: 1925,
-      imageUrl: "/great-gatsby-book-cover.png",
-      description: "A classic American novel set in the Jazz Age",
-      quantity: 15,
-    },
-    {
-      id: 2,
-      name: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      price: 14.99,
-      publicationYear: 1960,
-      imageUrl: "/to-kill-a-mockingbird-cover.png",
-      description: "A gripping tale of racial injustice and childhood innocence",
-      quantity: 20,
-    },
-  ])
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleAddProduct = (product: Product) => {
-    if (selectedProduct) {
-      setProducts(products.map((p) => (p.id === selectedProduct.id ? { ...product, id: selectedProduct.id } : p)))
-      setSelectedProduct(null)
-    } else {
-      setProducts([...products, { ...product, id: Date.now() }])
+  // Load products when logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadProducts()
     }
-    setCurrentView("list")
+  }, [isLoggedIn])
+
+  const loadProducts = async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const data = await productService.getAllProducts()
+      setProducts(data)
+    } catch (err: any) {
+      setError(err.message || "Failed to load products")
+      console.error("Error loading products:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleAddProduct = async (product: Product) => {
+    setError(null)
+    try {
+      if (selectedProduct && selectedProduct.id) {
+        // Update existing product
+        await productService.updateProduct(selectedProduct.id, product)
+        setSelectedProduct(null)
+      } else {
+        // Create new product
+        await productService.createProduct(product)
+      }
+      setCurrentView("list")
+      await loadProducts() // Reload products from backend
+    } catch (err: any) {
+      setError(err.message || "Failed to save product")
+      console.error("Error saving product:", err)
+    }
   }
 
   const handleEditProduct = (product: Product) => {
@@ -54,8 +66,15 @@ export default function App() {
     setCurrentView("edit")
   }
 
-  const handleDeleteProduct = (id: number) => {
-    setProducts(products.filter((p) => p.id !== id))
+  const handleDeleteProduct = async (id: number) => {
+    setError(null)
+    try {
+      await productService.softDeleteProduct(id)
+      await loadProducts() // Reload products from backend
+    } catch (err: any) {
+      setError(err.message || "Failed to delete product")
+      console.error("Error deleting product:", err)
+    }
   }
 
   const handleLoginSuccess = (account: Account) => {
@@ -92,26 +111,42 @@ export default function App() {
             currentView={currentView}
           />
           <main className="main-content">
-            {currentView === "list" && (
-              <ProductList
-                products={products}
-                onEdit={handleEditProduct}
-                onDelete={handleDeleteProduct}
-                onAdd={() => setCurrentView("add")}
-                onViewDetail={handleViewDetail}
-              />
+            {error && (
+              <div className="error-banner">
+                <p>{error}</p>
+                <button onClick={() => setError(null)}>✕</button>
+              </div>
             )}
-            {(currentView === "add" || currentView === "edit") && (
-              <ProductForm
-                product={selectedProduct}
-                onSubmit={handleAddProduct}
-                onCancel={() => {
-                  setCurrentView("list")
-                  setSelectedProduct(null)
-                }}
-              />
+            
+            {isLoading ? (
+              <div className="loading-state">
+                <div className="spinner"></div>
+                <p>Loading products...</p>
+              </div>
+            ) : (
+              <>
+                {currentView === "list" && (
+                  <ProductList
+                    products={products}
+                    onEdit={handleEditProduct}
+                    onDelete={handleDeleteProduct}
+                    onAdd={() => setCurrentView("add")}
+                    onViewDetail={handleViewDetail}
+                  />
+                )}
+                {(currentView === "add" || currentView === "edit") && (
+                  <ProductForm
+                    product={selectedProduct}
+                    onSubmit={handleAddProduct}
+                    onCancel={() => {
+                      setCurrentView("list")
+                      setSelectedProduct(null)
+                    }}
+                  />
+                )}
+                {detailProduct && <ProductDetail product={detailProduct} onClose={handleCloseDetail} />}
+              </>
             )}
-            {detailProduct && <ProductDetail product={detailProduct} onClose={handleCloseDetail} />}
           </main>
         </>
       )}
