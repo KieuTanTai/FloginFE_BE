@@ -45,8 +45,8 @@ backend/**/*.pid
 backend/spring-boot-*.jar
 
 # Application properties với thông tin nhạy cảm (nếu cần)
-# backend/src/main/resources/application-local.properties
-# backend/src/main/resources/application-prod.properties
+backend/src/main/resources/application-local.properties
+backend/src/main/resources/application-prod.properties
 
 # =====================
 # Frontend (Node/Vite/React)
@@ -131,3 +131,4 @@ secrets/
 # Documentation build
 docs/_build/
 site/
+backend/src/main/resources/database/
