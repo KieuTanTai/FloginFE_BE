@@ -5,11 +5,14 @@ import Sidebar from "./components/sidebar/sidebar"
 import ProductList from "./components/products/product-list"
 import ProductForm from "./components/products/product-form"
 import ProductDetail from "./components/products/product-detail"
+import LoginForm from "./components/auth/login-form"
 import "./assets/css/page.css"
 import type { Product } from "./models/Product"
+import type { Account } from "./models/Account"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [currentUser, setCurrentUser] = useState<Account | null>(null)
   const [currentView, setCurrentView] = useState<"list" | "add" | "edit">("list")
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [detailProduct, setDetailProduct] = useState<Product | null>(null)
@@ -55,8 +58,15 @@ export default function App() {
     setProducts(products.filter((p) => p.id !== id))
   }
 
+  const handleLoginSuccess = (account: Account) => {
+    setCurrentUser(account)
+    setIsLoggedIn(true)
+    setCurrentView("list")
+  }
+
   const handleLogout = () => {
     setIsLoggedIn(false)
+    setCurrentUser(null)
     setCurrentView("list")
   }
 
@@ -70,24 +80,18 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <Sidebar
-        isLoggedIn={isLoggedIn}
-        onLogin={() => setIsLoggedIn(true)}
-        onLogout={handleLogout}
-        onViewChange={setCurrentView}
-        currentView={currentView}
-      />
-      <main className="main-content">
-        {!isLoggedIn ? (
-          <div className="login-prompt">
-            <h1>Quản Lý Sách</h1>
-            <p>Vui lòng đăng nhập để tiếp tục</p>
-            <button className="login-btn" onClick={() => setIsLoggedIn(true)}>
-              Đăng Nhập
-            </button>
-          </div>
-        ) : (
-          <>
+      {!isLoggedIn ? (
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <>
+          <Sidebar
+            isLoggedIn={isLoggedIn}
+            onLogin={() => setIsLoggedIn(true)}
+            onLogout={handleLogout}
+            onViewChange={setCurrentView}
+            currentView={currentView}
+          />
+          <main className="main-content">
             {currentView === "list" && (
               <ProductList
                 products={products}
@@ -108,9 +112,9 @@ export default function App() {
               />
             )}
             {detailProduct && <ProductDetail product={detailProduct} onClose={handleCloseDetail} />}
-          </>
-        )}
-      </main>
+          </main>
+        </>
+      )}
     </div>
   )
 }

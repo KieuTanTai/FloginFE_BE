@@ -2,12 +2,15 @@ package org.example.flogin.controller;
 
 import org.example.flogin.dto.AccountDTO;
 import org.example.flogin.service.AccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
+@CrossOrigin(origins = "http://localhost:5173") // Allow frontend origin
 public class AccountController {
     private final AccountService accountService;
 
@@ -45,6 +48,27 @@ public class AccountController {
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+        String username = credentials.get("username");
+        String password = credentials.get("password");
+
+        if (username == null || password == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Username and password are required"));
+        }
+
+        boolean isValid = accountService.validateLogin(username, password);
+
+        if (isValid) {
+            return accountService.getAccountByUsername(username)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
         }
     }
 }
