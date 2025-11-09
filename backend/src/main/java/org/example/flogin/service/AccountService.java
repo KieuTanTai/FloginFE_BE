@@ -27,8 +27,11 @@ public class AccountService {
 
     // Create new account
     public AccountDTO createAccount(AccountDTO accountDTO) {
+        // Business validation
+        validateAccountBusinessRules(accountDTO);
+
         if (accountRepository.existsByUsername(accountDTO.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Tên người dùng đã tồn tại");
         }
 
         Account account = new Account();
@@ -38,6 +41,28 @@ public class AccountService {
 
         Account savedAccount = accountRepository.save(account);
         return convertToDTO(savedAccount);
+    }
+
+    // Business validation rules for Account
+    private void validateAccountBusinessRules(AccountDTO accountDTO) {
+        // Username validation (3-50 characters, not empty)
+        if (accountDTO.getUsername() == null || accountDTO.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên người dùng không được để trống");
+        }
+        if (accountDTO.getUsername().length() < 3) {
+            throw new IllegalArgumentException("Tên người dùng phải có ít nhất 3 ký tự");
+        }
+        if (accountDTO.getUsername().length() > 50) {
+            throw new IllegalArgumentException("Tên người dùng không được vượt quá 50 ký tự");
+        }
+
+        // Password validation (min 6 characters)
+        if (accountDTO.getPassword() == null || accountDTO.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Mật khẩu không được để trống");
+        }
+        if (accountDTO.getPassword().length() < 6) {
+            throw new IllegalArgumentException("Mật khẩu phải có ít nhất 6 ký tự");
+        }
     }
 
     // Get all accounts
@@ -67,8 +92,12 @@ public class AccountService {
         if (id == null) {
             throw new IllegalArgumentException("Account id must not be null");
         }
+
+        // Business validation
+        validateAccountBusinessRules(accountDTO);
+
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại"));
 
         if (accountDTO.getPassword() != null && !accountDTO.getPassword().isEmpty()) {
             account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
@@ -85,7 +114,7 @@ public class AccountService {
     public void deleteAccount(Long id) {
         if (id == null)
             throw new IllegalArgumentException("Account id must not be null");
-        if (!accountRepository.existsById(id)) 
+        if (!accountRepository.existsById(id))
             throw new RuntimeException("Account not found");
         accountRepository.deleteById(id);
     }

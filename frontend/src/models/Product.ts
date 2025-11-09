@@ -1,3 +1,5 @@
+import type { Category } from "./Category";
+
 /**
  * Product entity matching backend ProductDTO
  */
@@ -9,7 +11,9 @@ export interface Product {
   description?: string;
   author: string;
   publicationYear: number;
+  category?: Category;
   quantity?: number;
+  deleted?: boolean;
 }
 
 /**
@@ -22,5 +26,6 @@ export const createEmptyProduct = (): Product => ({
   description: "",
   author: "",
   publicationYear: new Date().getFullYear(),
+  category: undefined,
   quantity: 10,
 });

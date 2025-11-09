@@ -1,5 +1,5 @@
 "use client"
-import { Plus, Edit, Trash2 } from "lucide-react"
+import { Plus, Edit, Trash2, Unlock } from "lucide-react"
 import "../../assets/css/products/product-list.css"
 import type { Product } from "../../models/Product"
 
@@ -7,11 +7,12 @@ interface ProductListProps {
   products: Product[]
   onEdit: (product: Product) => void
   onDelete: (id: number) => void
+  onRestore: (id: number) => void
   onAdd: () => void
   onViewDetail: (product: Product) => void
 }
 
-export default function ProductList({ products, onEdit, onDelete, onAdd, onViewDetail }: ProductListProps) {
+export default function ProductList({ products, onEdit, onDelete, onRestore, onAdd, onViewDetail }: ProductListProps) {
   return (
     <div className="product-list-container">
       <div className="list-header">
@@ -28,24 +29,34 @@ export default function ProductList({ products, onEdit, onDelete, onAdd, onViewD
       ) : (
         <div className="products-grid">
           {products.map((product) => (
-            <div key={product.id} className="product-card">
-              <div className="product-image" onClick={() => onViewDetail(product)}>
+            <div key={product.id} className={`product-card ${product.deleted ? 'product-deleted' : ''}`}>
+              {product.deleted && <div className="deleted-overlay">Đã Xóa</div>}
+              <div className="product-image" onClick={() => !product.deleted && onViewDetail(product)}>
                 {product.imageUrl && <img src={product.imageUrl || "/placeholder.svg"} alt={product.name} />}
               </div>
-              <div className="product-info" onClick={() => onViewDetail(product)}>
+              <div className="product-info" onClick={() => !product.deleted && onViewDetail(product)}>
                 <h3 className="product-title">{product.name}</h3>
                 <p className="product-author">Tác giả: {product.author}</p>
+                {product.category && <p className="product-category">Thể loại: {product.category.name}</p>}
                 <p className="product-year">Năm: {product.publicationYear}</p>
                 <p className="product-quantity">Số lượng: {product.quantity || 0}</p>
                 <p className="product-price">${product.price.toFixed(2)}</p>
               </div>
               <div className="product-actions">
-                <button className="edit-btn" onClick={() => onEdit(product)}>
-                  <Edit size={16} /> Sửa
-                </button>
-                <button className="delete-btn" onClick={() => product.id && onDelete(product.id)}>
-                  <Trash2 size={16} /> Xóa
-                </button>
+                {product.deleted ? (
+                  <button className="restore-btn" onClick={() => product.id && onRestore(product.id)}>
+                    <Unlock size={16} /> Mở Khóa
+                  </button>
+                ) : (
+                  <>
+                    <button className="edit-btn" onClick={() => onEdit(product)}>
+                      <Edit size={16} /> Sửa
+                    </button>
+                    <button className="delete-btn" onClick={() => product.id && onDelete(product.id)}>
+                      <Trash2 size={16} /> Xóa
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}

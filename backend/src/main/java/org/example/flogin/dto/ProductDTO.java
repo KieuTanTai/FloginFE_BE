@@ -10,14 +10,17 @@ public class ProductDTO {
     private String description;
     private String author;
     private Integer publicationYear;
+    private CategoryDTO category;
     private Integer quantity;
+    private Boolean deleted;
 
     // Constructors
     public ProductDTO() {
     }
 
     public ProductDTO(Long id, String name, String imageUrl, BigDecimal price,
-            String description, String author, Integer publicationYear, Integer quantity) {
+            String description, String author, Integer publicationYear, CategoryDTO category, Integer quantity,
+            Boolean deleted) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -25,7 +28,9 @@ public class ProductDTO {
         this.description = description;
         this.author = author;
         this.publicationYear = publicationYear;
+        this.category = category;
         this.quantity = quantity;
+        this.deleted = deleted;
     }
 
     // Getters and Setters
@@ -91,5 +96,21 @@ public class ProductDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

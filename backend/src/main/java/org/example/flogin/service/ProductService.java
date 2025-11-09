@@ -1,13 +1,17 @@
 package org.example.flogin.service;
 
+import org.example.flogin.dto.CategoryDTO;
 import org.example.flogin.dto.ProductDTO;
+import org.example.flogin.entity.Category;
 import org.example.flogin.entity.Product;
+import org.example.flogin.repository.CategoryRepository;
 import org.example.flogin.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,8 +22,14 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     // Create new product
     public ProductDTO createProduct(ProductDTO productDTO) {
+        // Business validation
+        validateProductBusinessRules(productDTO);
+
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setImageUrl(productDTO.getImageUrl());
@@ -30,13 +40,62 @@ public class ProductService {
         product.setQuantity(productDTO.getQuantity() != null ? productDTO.getQuantity() : 10);
         product.setDeleted(false);
 
+        // Set category if provided - validate category exists in DB
+        if (productDTO.getCategory() != null && productDTO.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(Objects.requireNonNull(productDTO.getCategory().getId()))
+                    .orElseThrow(() -> new RuntimeException("Thể loại không tồn tại trong hệ thống"));
+            product.setCategory(category);
+        } else {
+            throw new RuntimeException("Thể loại không được để trống");
+        }
+
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
     }
 
-    // Get all products (not deleted)
+    // Business validation rules
+    private void validateProductBusinessRules(ProductDTO productDTO) {
+        // Name validation
+        if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên sản phẩm không được để trống");
+        }
+        String[] words = productDTO.getName().trim().split("\\s+");
+        if (words.length < 3 || words.length > 100) {
+            throw new IllegalArgumentException("Tên sản phẩm phải có từ 3 đến 100 từ");
+        }
+
+        // Price validation
+        if (productDTO.getPrice() == null || productDTO.getPrice().doubleValue() < 0
+                || productDTO.getPrice().doubleValue() > 999999999) {
+            throw new IllegalArgumentException("Giá phải từ 0 đến 999,999,999");
+        }
+
+        // Quantity validation
+        if (productDTO.getQuantity() != null) {
+            if (productDTO.getQuantity() < 0 || productDTO.getQuantity() > 99999) {
+                throw new IllegalArgumentException("Số lượng phải từ 0 đến 99,999");
+            }
+        }
+
+        // Description validation
+        if (productDTO.getDescription() != null && productDTO.getDescription().length() > 500) {
+            throw new IllegalArgumentException("Mô tả không được vượt quá 500 ký tự");
+        }
+
+        // Category validation
+        if (productDTO.getCategory() == null || productDTO.getCategory().getId() == null) {
+            throw new IllegalArgumentException("Thể loại không được để trống");
+        }
+
+        // Validate category exists in database
+        if (!categoryRepository.existsById(Objects.requireNonNull(productDTO.getCategory().getId()))) {
+            throw new IllegalArgumentException("Thể loại không tồn tại trong hệ thống");
+        }
+    }
+
+    // Get all products (including deleted for admin view)
     public List<ProductDTO> getAllProducts() {
-        return productRepository.findByDeletedFalse().stream()
+        return productRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -70,6 +129,9 @@ public class ProductService {
 
     // Update product
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        // Business validation
+        validateProductBusinessRules(productDTO);
+
         Product product = productRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new RuntimeException("Product not found or has been deleted"));
 
@@ -87,7 +149,14 @@ public class ProductService {
             product.setPublicationYear(productDTO.getPublicationYear());
         if (productDTO.getQuantity() != null)
             product.setQuantity(productDTO.getQuantity());
-        
+
+        // Update category if provided - validate category exists in DB
+        if (productDTO.getCategory() != null && productDTO.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(Objects.requireNonNull(productDTO.getCategory().getId()))
+                    .orElseThrow(() -> new RuntimeException("Thể loại không tồn tại trong hệ thống"));
+            product.setCategory(category);
+        }
+
         if (product == null)
             throw new IllegalArgumentException("Product must not be null");
 
@@ -149,6 +218,17 @@ public class ProductService {
         dto.setAuthor(product.getAuthor());
         dto.setPublicationYear(product.getPublicationYear());
         dto.setQuantity(product.getQuantity());
+        dto.setDeleted(product.getDeleted());
+
+        // Convert category to DTO
+        if (product.getCategory() != null) {
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setId(product.getCategory().getId());
+            categoryDTO.setName(product.getCategory().getName());
+            categoryDTO.setDescription(product.getCategory().getDescription());
+            dto.setCategory(categoryDTO);
+        }
+
         return dto;
     }
 }

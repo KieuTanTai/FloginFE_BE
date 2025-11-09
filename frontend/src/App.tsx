@@ -77,6 +77,17 @@ export default function App() {
     }
   }
 
+  const handleRestoreProduct = async (id: number) => {
+    setError(null)
+    try {
+      await productService.restoreProduct(id)
+      await loadProducts() // Reload products from backend
+    } catch (err: any) {
+      setError(err.message || "Failed to restore product")
+      console.error("Error restoring product:", err)
+    }
+  }
+
   const handleLoginSuccess = (account: Account) => {
     setCurrentUser(account)
     setIsLoggedIn(true)
@@ -130,6 +141,7 @@ export default function App() {
                     products={products}
                     onEdit={handleEditProduct}
                     onDelete={handleDeleteProduct}
+                    onRestore={handleRestoreProduct}
                     onAdd={() => setCurrentView("add")}
                     onViewDetail={handleViewDetail}
                   />

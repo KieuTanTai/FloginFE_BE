@@ -25,9 +25,9 @@
 
 .detail-image-section {
   position: relative;
-  height: 30%;
-  min-height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 400px;
+  min-height: 300px;
+  background: #f0f0f0;
   overflow: hidden;
 }
 
@@ -35,6 +35,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .close-btn {
@@ -43,22 +44,31 @@
   right: 1rem;
   width: 2.5rem;
   height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   background-color: #f44336;
   color: white;
   border: none;
   border-radius: 50%;
   font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s, transform 0.3s;
   z-index: 10;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .close-btn:hover {
   background-color: #da190b;
   transform: scale(1.1);
+}
+
+.close-btn:active {
+  transform: scale(0.95);
 }
 
 .detail-info-section {
@@ -72,7 +82,21 @@
   font-size: 1.8rem;
   font-weight: bold;
   color: #333;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1rem 0;
+}
+
+.detail-description {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 4px solid #667eea;
+  border-radius: 0.25rem;
+}
+
+.detail-description p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .detail-meta {
@@ -129,4 +153,53 @@
 
 .primary-btn:hover {
   background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .detail-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .detail-image-section {
+    height: 300px;
+    min-height: 250px;
+  }
+
+  .detail-info-section {
+    padding: 1.5rem;
+  }
+
+  .detail-title {
+    font-size: 1.5rem;
+  }
+
+  .close-btn {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    font-size: 1.2rem;
+  }
+
+  .meta-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-image-section {
+    height: 250px;
+    min-height: 200px;
+  }
+
+  .detail-info-section {
+    padding: 1rem;
+  }
+
+  .detail-title {
+    font-size: 1.3rem;
+  }
 }

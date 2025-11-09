@@ -29,6 +29,10 @@ public class Product {
     @Column(name = "publication_year", nullable = false)
     private Integer publicationYear;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Column(nullable = false)
     private Integer quantity = 10;
 
@@ -40,13 +44,14 @@ public class Product {
     }
 
     public Product(String name, String imageUrl, BigDecimal price,
-            String description, String author, Integer publicationYear, Integer quantity) {
+            String description, String author, Integer publicationYear, Category category, Integer quantity) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
         this.description = description;
         this.author = author;
         this.publicationYear = publicationYear;
+        this.category = category;
         this.quantity = quantity != null ? quantity : 10;
         this.deleted = false;
     }
@@ -122,5 +127,13 @@ public class Product {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
