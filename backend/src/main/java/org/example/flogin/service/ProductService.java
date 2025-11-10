@@ -35,8 +35,6 @@ public class ProductService {
         product.setImageUrl(productDTO.getImageUrl());
         product.setPrice(productDTO.getPrice());
         product.setDescription(productDTO.getDescription());
-        product.setAuthor(productDTO.getAuthor());
-        product.setPublicationYear(productDTO.getPublicationYear());
         product.setQuantity(productDTO.getQuantity() != null ? productDTO.getQuantity() : 10);
         product.setDeleted(false);
 
@@ -59,9 +57,8 @@ public class ProductService {
         if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Tên sản phẩm không được để trống");
         }
-        String[] words = productDTO.getName().trim().split("\\s+");
-        if (words.length < 3 || words.length > 100) {
-            throw new IllegalArgumentException("Tên sản phẩm phải có từ 3 đến 100 từ");
+        if (productDTO.getName().length() < 3 || productDTO.getName().length() > 100) {
+            throw new IllegalArgumentException("Tên sản phẩm phải có từ 3 đến 100 ký tự");
         }
 
         // Price validation
@@ -106,20 +103,6 @@ public class ProductService {
                 .map(this::convertToDTO);
     }
 
-    // Get products by author (not deleted)
-    public List<ProductDTO> getProductsByAuthor(String author) {
-        return productRepository.findByAuthorAndDeletedFalse(author).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    // Get products by publication year (not deleted)
-    public List<ProductDTO> getProductsByYear(Integer year) {
-        return productRepository.findByPublicationYearAndDeletedFalse(year).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
     // Search products by name (not deleted)
     public List<ProductDTO> searchProductsByName(String name) {
         return productRepository.searchByName(name).stream()
@@ -143,10 +126,6 @@ public class ProductService {
             product.setPrice(productDTO.getPrice());
         if (productDTO.getDescription() != null)
             product.setDescription(productDTO.getDescription());
-        if (productDTO.getAuthor() != null)
-            product.setAuthor(productDTO.getAuthor());
-        if (productDTO.getPublicationYear() != null)
-            product.setPublicationYear(productDTO.getPublicationYear());
         if (productDTO.getQuantity() != null)
             product.setQuantity(productDTO.getQuantity());
 
@@ -215,8 +194,6 @@ public class ProductService {
         dto.setImageUrl(product.getImageUrl());
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());
-        dto.setAuthor(product.getAuthor());
-        dto.setPublicationYear(product.getPublicationYear());
         dto.setQuantity(product.getQuantity());
         dto.setDeleted(product.getDeleted());
 

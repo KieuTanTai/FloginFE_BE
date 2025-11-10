@@ -8,8 +8,6 @@ public class ProductDTO {
     private String imageUrl;
     private BigDecimal price;
     private String description;
-    private String author;
-    private Integer publicationYear;
     private CategoryDTO category;
     private Integer quantity;
     private Boolean deleted;
@@ -19,15 +17,12 @@ public class ProductDTO {
     }
 
     public ProductDTO(Long id, String name, String imageUrl, BigDecimal price,
-            String description, String author, Integer publicationYear, CategoryDTO category, Integer quantity,
-            Boolean deleted) {
+            String description, CategoryDTO category, Integer quantity, Boolean deleted) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.price = price;
         this.description = description;
-        this.author = author;
-        this.publicationYear = publicationYear;
         this.category = category;
         this.quantity = quantity;
         this.deleted = deleted;
@@ -72,22 +67,6 @@ public class ProductDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Integer getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(Integer publicationYear) {
-        this.publicationYear = publicationYear;
     }
 
     public Integer getQuantity() {

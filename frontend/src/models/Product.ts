@@ -2,6 +2,7 @@ import type { Category } from "./Category";
 
 /**
  * Product entity matching backend ProductDTO
+ * Simplified laptop model without author or publication year
  */
 export interface Product {
   id?: number;
@@ -9,8 +10,6 @@ export interface Product {
   imageUrl?: string;
   price: number;
   description?: string;
-  author: string;
-  publicationYear: number;
   category?: Category;
   quantity?: number;
   deleted?: boolean;
@@ -24,8 +23,6 @@ export const createEmptyProduct = (): Product => ({
   imageUrl: "",
   price: 0,
   description: "",
-  author: "",
-  publicationYear: new Date().getFullYear(),
   category: undefined,
   quantity: 10,
 });

@@ -20,16 +20,15 @@ public class ProductController {
 
     // Validate product DTO input
     private void validateProductInput(ProductDTO productDTO) {
-        // Validate name (3-100 words, not empty)
+        // Validate name (3-100 characters, not empty)
         if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Tên sản phẩm không được để trống");
         }
-        String[] words = productDTO.getName().trim().split("\\s+");
-        if (words.length < 3) {
-            throw new IllegalArgumentException("Tên sản phẩm phải có ít nhất 3 từ");
+        if (productDTO.getName().length() < 3) {
+            throw new IllegalArgumentException("Tên sản phẩm phải có ít nhất 3 ký tự");
         }
-        if (words.length > 100) {
-            throw new IllegalArgumentException("Tên sản phẩm không được vượt quá 100 từ");
+        if (productDTO.getName().length() > 100) {
+            throw new IllegalArgumentException("Tên sản phẩm không được vượt quá 100 ký tự");
         }
 
         // Validate price (0 - 999,999,999)

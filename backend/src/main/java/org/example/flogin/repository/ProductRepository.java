@@ -17,12 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Find product by id and not deleted
     Optional<Product> findByIdAndDeletedFalse(Long id);
 
-    // Find products by author and not deleted
-    List<Product> findByAuthorAndDeletedFalse(String author);
-
-    // Find products by publication year and not deleted
-    List<Product> findByPublicationYearAndDeletedFalse(Integer year);
-
     // Search products by name (case insensitive) and not deleted
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND p.deleted = false")
     List<Product> searchByName(String name);

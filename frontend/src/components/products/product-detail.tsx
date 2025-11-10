@@ -30,20 +30,12 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
           )}
           
           <div className="detail-meta">
-            <div className="meta-item">
-              <span className="meta-label">Tác giả:</span>
-              <span className="meta-value">{product.author}</span>
-            </div>
             {product.category && (
               <div className="meta-item">
                 <span className="meta-label">Thể loại:</span>
                 <span className="meta-value">{product.category.name}</span>
               </div>
             )}
-            <div className="meta-item">
-              <span className="meta-label">Năm xuất bản:</span>
-              <span className="meta-value">{product.publicationYear}</span>
-            </div>
             <div className="meta-item">
               <span className="meta-label">Số lượng:</span>
               <span className="meta-value">{product.quantity || 0}</span>

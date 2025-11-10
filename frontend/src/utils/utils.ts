@@ -16,12 +16,11 @@ export const validation = {
     if (!name || name.trim().length === 0) {
       return { valid: false, error: 'Tên sản phẩm không được để trống' }
     }
-    const wordCount = name.trim().split(/\s+/).length
-    if (wordCount < 3) {
-      return { valid: false, error: 'Tên sản phẩm phải có ít nhất 3 từ' }
+    if (name.length < 3) {
+      return { valid: false, error: 'Tên sản phẩm phải có ít nhất 3 ký tự' }
     }
-    if (wordCount > 100) {
-      return { valid: false, error: 'Tên sản phẩm không được vượt quá 100 từ' }
+    if (name.length > 100) {
+      return { valid: false, error: 'Tên sản phẩm không được vượt quá 100 ký tự' }
     }
     return { valid: true }
   },
@@ -73,7 +72,7 @@ export const validation = {
   },
 
   /**
-   * Validate username (not empty, 3-50 characters)
+   * Validate username (3-50 characters, allowed: a-z, A-Z, 0-9, -, ., _)
    */
   validateUsername: (username: string): { valid: boolean; error?: string } => {
     if (!username || username.trim().length === 0) {
@@ -85,11 +84,15 @@ export const validation = {
     if (username.length > 50) {
       return { valid: false, error: 'Tên người dùng không được vượt quá 50 ký tự' }
     }
+    // Check allowed characters: a-z, A-Z, 0-9, -, ., _
+    if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
+      return { valid: false, error: 'Tên người dùng chỉ được chứa chữ cái, số, dấu chấm, gạch ngang và gạch dưới' }
+    }
     return { valid: true }
   },
 
   /**
-   * Validate password (not empty, min 6 characters)
+   * Validate password (6-100 characters, must contain both letters and numbers)
    */
   validatePassword: (password: string): { valid: boolean; error?: string } => {
     if (!password || password.trim().length === 0) {
@@ -97,6 +100,13 @@ export const validation = {
     }
     if (password.length < 6) {
       return { valid: false, error: 'Mật khẩu phải có ít nhất 6 ký tự' }
+    }
+    if (password.length > 100) {
+      return { valid: false, error: 'Mật khẩu không được vượt quá 100 ký tự' }
+    }
+    // Must contain both letters and numbers
+    if (!/[a-zA-Z]/.test(password) || !/[0-9]/.test(password)) {
+      return { valid: false, error: 'Mật khẩu phải chứa cả chữ cái và số' }
     }
     return { valid: true }
   },

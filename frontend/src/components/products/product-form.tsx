@@ -38,7 +38,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? Number.parseFloat(value) : name === "publicationYear" || name === "quantity" ? Number.parseInt(value) : value,
+      [name]: name === "price" ? Number.parseFloat(value) : name === "quantity" ? Number.parseInt(value) : value,
     }))
   }
 
@@ -133,22 +133,9 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  placeholder="Nhập tên sách (3-100 từ)"
+                  placeholder="Nhập tên laptop (3-100 ký tự)"
                 />
                 {errors.name && <span className="error-message">{errors.name}</span>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="author">Tác Giả *</label>
-                <input
-                  type="text"
-                  id="author"
-                  name="author"
-                  value={formData.author}
-                  onChange={handleChange}
-                  required
-                  placeholder="Nhập tên tác giả"
-                />
               </div>
 
               <div className="form-group">
@@ -219,27 +206,13 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
               </div>
 
               <div className="form-group">
-                <label htmlFor="publicationYear">Năm Xuất Bản *</label>
-                <input
-                  type="number"
-                  id="publicationYear"
-                  name="publicationYear"
-                  value={formData.publicationYear}
-                  onChange={handleChange}
-                  required
-                  min="1000"
-                  max={new Date().getFullYear()}
-                />
-              </div>
-
-              <div className="form-group">
                 <label htmlFor="description">Mô Tả</label>
                 <textarea
                   id="description"
                   name="description"
                   value={formData.description || ""}
                   onChange={handleChange}
-                  placeholder="Nhập mô tả sách (tối đa 500 ký tự)"
+                  placeholder="Nhập mô tả laptop (tối đa 500 ký tự)"
                   rows={7}
                 />
                 {errors.description && <span className="error-message">{errors.description}</span>}
@@ -249,7 +222,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
 
           <div className="form-actions">
             <button type="submit" className="submit-btn">
-              {product ? <><Save size={18} /> Cập Nhật</> : <><Plus size={18} /> Thêm Sách</>}
+              {product ? <><Save size={18} /> Cập Nhật</> : <><Plus size={18} /> Thêm Laptop</>}
             </button>
             <button type="button" className="cancel-btn" onClick={onCancel}>
               <X size={18} /> Hủy

@@ -24,7 +24,7 @@ export default function ProductList({ products, onEdit, onDelete, onRestore, onA
 
       {products.length === 0 ? (
         <div className="empty-state">
-          <p>Chưa có sách nào. Hãy thêm sách mới!</p>
+          <p>Chưa có laptop nào. Hãy thêm laptop mới!</p>
         </div>
       ) : (
         <div className="products-grid">
@@ -36,9 +36,7 @@ export default function ProductList({ products, onEdit, onDelete, onRestore, onA
               </div>
               <div className="product-info" onClick={() => !product.deleted && onViewDetail(product)}>
                 <h3 className="product-title">{product.name}</h3>
-                <p className="product-author">Tác giả: {product.author}</p>
                 {product.category && <p className="product-category">Thể loại: {product.category.name}</p>}
-                <p className="product-year">Năm: {product.publicationYear}</p>
                 <p className="product-quantity">Số lượng: {product.quantity || 0}</p>
                 <p className="product-price">${product.price.toFixed(2)}</p>
               </div>
