@@ -70,41 +70,41 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // Validate all fields
     const newErrors: Record<string, string> = {}
-    
+
     const nameValidation = validation.validateProductName(formData.name)
     if (!nameValidation.valid) {
       newErrors.name = nameValidation.error || ''
     }
-    
+
     const priceValidation = validation.validatePrice(formData.price)
     if (!priceValidation.valid) {
       newErrors.price = priceValidation.error || ''
     }
-    
+
     const quantityValidation = validation.validateQuantity(formData.quantity || 0)
     if (!quantityValidation.valid) {
       newErrors.quantity = quantityValidation.error || ''
     }
-    
+
     const descriptionValidation = validation.validateDescription(formData.description || '')
     if (!descriptionValidation.valid) {
       newErrors.description = descriptionValidation.error || ''
     }
-    
+
     const categoryValidation = validation.validateCategory(formData.category?.id)
     if (!categoryValidation.valid) {
       newErrors.category = categoryValidation.error || ''
     }
-    
+
     // If there are errors, don't submit
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
     }
-    
+
     // Clear errors and submit
     setErrors({})
     if (product) {
