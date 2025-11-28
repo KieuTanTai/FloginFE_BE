@@ -16,9 +16,9 @@ export default function ProductList({ products, onEdit, onDelete, onRestore, onA
   return (
     <div className="product-list-container">
       <div className="list-header">
-        <h1>Danh Sách Sách</h1>
+        <h1>Danh Sách Laptop</h1>
         <button className="add-btn" onClick={onAdd}>
-          <Plus size={18} /> Thêm Sách Mới
+          <Plus size={18} /> Thêm Laptop Mới
         </button>
       </div>
 
