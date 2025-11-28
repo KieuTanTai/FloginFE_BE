@@ -14,7 +14,7 @@ public class Product {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @Column(nullable = false, precision = 10, scale = 2)
