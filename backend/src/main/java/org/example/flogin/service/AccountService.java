@@ -1,5 +1,10 @@
 package org.example.flogin.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.example.flogin.dto.AccountDTO;
 import org.example.flogin.entity.Account;
 import org.example.flogin.repository.AccountRepository;
@@ -9,11 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.micrometer.common.lang.NonNull;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -124,8 +124,8 @@ public class AccountService {
         Optional<Account> accountOpt = accountRepository.findByUsername(username);
         if (accountOpt.isPresent()) {
             Account account = accountOpt.get();
-            return passwordEncoder.matches(password, account.getPassword());
-        }
+            return passwordEncoder.matches(password, account.getPassword());        
+        }        
         return false;
     }
 

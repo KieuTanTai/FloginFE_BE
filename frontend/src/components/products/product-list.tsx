@@ -24,7 +24,7 @@ export default function ProductList({ products, onEdit, onDelete, onRestore, onA
 
       {products.length === 0 ? (
         <div className="empty-state">
-          <p>Chưa có sách nào. Hãy thêm sách mới!</p>
+          <p>Chưa có laptop nào. Hãy thêm laptop mới!</p>
         </div>
       ) : (
         <div className="products-grid">
