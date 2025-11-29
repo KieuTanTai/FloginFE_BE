@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[]
-=======
 [{"name":"org.example.flogin.PasswordHashChecker","comment":"Standalone utility to check BCrypt password hashes Run this file independently to verify password hashes in database"}]
->>>>>>> a4456c6 (source using for security testing, reports in folder: ./security_test/.Reports)
