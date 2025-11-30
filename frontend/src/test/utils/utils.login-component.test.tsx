@@ -3,8 +3,6 @@ import LoginForm from "../../components/auth/login-form";
 import { accountService } from "../../services/accountService";
 import "@testing-library/jest-dom";
 
-
-// Mock toàn bộ accountService
 jest.mock("../../services/accountService");
 
 describe("LoginForm Integration Test", () => {
@@ -48,14 +46,12 @@ describe("LoginForm Integration Test", () => {
         });
 
         test("gọi API login thành công và gọi onLoginSuccess()", async () => {
-            // data giả trả về từ API
             const mockAccount = {
                 id: 1,
                 username: "duy",
                 role: "admin"
             };
 
-            // Setup mock login
             (accountService.login as jest.Mock).mockResolvedValue(mockAccount);
 
             render(<LoginForm onLoginSuccess={mockOnSuccess} />);
@@ -70,18 +66,14 @@ describe("LoginForm Integration Test", () => {
 
             fireEvent.click(screen.getByRole("button", { name: "Đăng Nhập" }));
 
-            // loading state xuất hiện
             expect(screen.getByText("Đang đăng nhập...")).toBeInTheDocument();
 
-            // Đợi API resolve
             await waitFor(() => expect(mockOnSuccess).toHaveBeenCalledTimes(1));
 
-            // Kiểm tra callback nhận đúng account
             expect(mockOnSuccess).toHaveBeenCalledWith(mockAccount);
         });
 
         test("hiển thị lỗi khi API login thất bại", async () => {
-            // Mock lỗi từ API
             (accountService.login as jest.Mock).mockRejectedValue(
                 new Error("Sai thông tin đăng nhập")
             );
@@ -98,7 +90,6 @@ describe("LoginForm Integration Test", () => {
 
             fireEvent.click(screen.getByRole("button", { name: "Đăng Nhập" }));
 
-            // Chờ error hiển thị
             expect(
                 await screen.findByText("Sai thông tin đăng nhập")
             ).toBeInTheDocument();
@@ -107,7 +98,6 @@ describe("LoginForm Integration Test", () => {
         });
 
         test("nút Login disabled khi đang loading", async () => {
-            // mock pending promise
             let resolve: any;
             const loginPromise = new Promise((res) => (resolve = res));
 
@@ -126,10 +116,9 @@ describe("LoginForm Integration Test", () => {
             const btn = screen.getByRole("button", { name: "Đăng Nhập" });
             fireEvent.click(btn);
 
-            // đang loading phải disable
             expect(btn).toBeDisabled();
 
-            resolve(); // hoàn tất promise
+            resolve();
         });
     });
 });

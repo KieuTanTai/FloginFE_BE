@@ -132,3 +132,9 @@ secrets/
 docs/_build/
 site/
 backend/src/main/resources/database/
+security_test/app-config.properties
+security_test/*/*.pyc
+
+__pycache__/
+**/__pycache__/
+

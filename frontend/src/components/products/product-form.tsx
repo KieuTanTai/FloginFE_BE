@@ -8,6 +8,7 @@ import type { Product } from "../../models/Product"
 import { createEmptyProduct } from "../../models/Product"
 import type { Category } from "../../models/Category"
 import { categoryService } from "../../services/categoryService"
+import { productService } from "../../services/productService"
 import { validation } from "../../utils/utils"
 
 interface ProductFormProps {
@@ -67,52 +68,57 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // Validate all fields
     const newErrors: Record<string, string> = {}
-    
+
     const nameValidation = validation.validateProductName(formData.name)
     if (!nameValidation.valid) {
       newErrors.name = nameValidation.error || ''
     }
-    
+
     const priceValidation = validation.validatePrice(formData.price)
     if (!priceValidation.valid) {
       newErrors.price = priceValidation.error || ''
     }
-    
+
     const quantityValidation = validation.validateQuantity(formData.quantity || 0)
     if (!quantityValidation.valid) {
       newErrors.quantity = quantityValidation.error || ''
     }
-    
+
     const descriptionValidation = validation.validateDescription(formData.description || '')
     if (!descriptionValidation.valid) {
       newErrors.description = descriptionValidation.error || ''
     }
-    
+
     const categoryValidation = validation.validateCategory(formData.category?.id)
     if (!categoryValidation.valid) {
       newErrors.category = categoryValidation.error || ''
     }
-    
+
     // If there are errors, don't submit
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
     }
-    
+
     // Clear errors and submit
     setErrors({})
+    if (product) {
+      await productService.updateProduct(product.id!, formData)
+    } else {
+      await productService.createProduct(formData)
+    }
     onSubmit(formData)
   }
 
   return (
     <div className="form-container">
       <div className="form-card">
-        <h1>{product ? "Chỉnh Sửa Sách" : "Thêm Sách Mới"}</h1>
+        <h1>{product ? "Chỉnh Sửa Laptop" : "Thêm Laptop Mới"}</h1>
         <form onSubmit={handleSubmit}>
           {/* Image Preview */}
           {imagePreview && (
@@ -125,7 +131,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
             {/* Left Column */}
             <div className="form-column">
               <div className="form-group">
-                <label htmlFor="name">Tên Sách *</label>
+                <label htmlFor="name">Tên Laptop *</label>
                 <input
                   type="text"
                   id="name"
@@ -139,7 +145,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
               </div>
 
               <div className="form-group">
-                <label htmlFor="category">Thể Loại *</label>
+                <label htmlFor="category">Loại Laptop *</label>
                 <select
                   id="category"
                   name="category"
@@ -194,7 +200,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
             {/* Right Column */}
             <div className="form-column">
               <div className="form-group">
-                <label htmlFor="image">Hình Ảnh Sách</label>
+                <label htmlFor="image">Hình Ảnh Laptop</label>
                 <input
                   type="file"
                   id="image"
@@ -206,7 +212,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
               </div>
 
               <div className="form-group">
-                <label htmlFor="description">Mô Tả</label>
+                <label htmlFor="description">Mô Tả Laptop</label>
                 <textarea
                   id="description"
                   name="description"

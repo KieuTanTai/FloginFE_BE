@@ -1,0 +1,1 @@
+[{"name":"org.example.flogin.PasswordHashChecker","comment":"Standalone utility to check BCrypt password hashes Run this file independently to verify password hashes in database"}]

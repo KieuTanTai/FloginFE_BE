@@ -16,6 +16,18 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
+    public ProductDTO( String name, String imageUrl, BigDecimal price,
+            String description, CategoryDTO category, Integer quantity, Boolean deleted) {
+
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.description = description;
+        this.category = category;
+        this.quantity = quantity;
+        this.deleted = deleted;
+    }
+
     public ProductDTO(Long id, String name, String imageUrl, BigDecimal price,
             String description, CategoryDTO category, Integer quantity, Boolean deleted) {
         this.id = id;

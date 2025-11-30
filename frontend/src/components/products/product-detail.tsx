@@ -22,17 +22,15 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
 
         <div className="detail-info-section">
           <h2 className="detail-title">{product.name}</h2>
-          
           {product.description && (
             <div className="detail-description">
               <p>{product.description}</p>
             </div>
           )}
-          
           <div className="detail-meta">
             {product.category && (
               <div className="meta-item">
-                <span className="meta-label">Thể loại:</span>
+                <span className="meta-label">Loại laptop:</span>
                 <span className="meta-value">{product.category.name}</span>
               </div>
             )}

@@ -1,0 +1,1007 @@
+{
+  "from_payloads": "sql_injection_auth_payloads.txt",
+  "src": "https://github.com/payloadbox/sql-injection-payload-list?tab=readme-ov-file#sql-injection-auth-bypass-payloads",
+  "results": [
+    {
+      "timestamp": "2025-11-29 00:09:49",
+      "input": {
+        "username": "'-'",
+        "password": "'-'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:49",
+      "input": {
+        "username": "' '",
+        "password": "' '"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:49",
+      "input": {
+        "username": "'&'",
+        "password": "'&'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "'^'",
+        "password": "'^'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "'*'",
+        "password": "'*'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or ''-'",
+        "password": "' or ''-'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or '' '",
+        "password": "' or '' '"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or ''&'",
+        "password": "' or ''&'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or ''^'",
+        "password": "' or ''^'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or ''*'",
+        "password": "' or ''*'"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\"-\"",
+        "password": "\"-\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" \"",
+        "password": "\" \""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\"&\"",
+        "password": "\"&\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\"^\"",
+        "password": "\"^\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\"*\"",
+        "password": "\"*\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"\"-\"",
+        "password": "\" or \"\"-\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"\" \"",
+        "password": "\" or \"\" \""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"\"&\"",
+        "password": "\" or \"\"&\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"\"^\"",
+        "password": "\" or \"\"^\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"\"*\"",
+        "password": "\" or \"\"*\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "or true--",
+        "password": "or true--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or true--",
+        "password": "\" or true--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or true--",
+        "password": "' or true--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\") or true--",
+        "password": "\") or true--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "') or true--",
+        "password": "') or true--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "' or 'x'='x",
+        "password": "' or 'x'='x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "') or ('x')=('x",
+        "password": "') or ('x')=('x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "')) or (('x'))=(('x",
+        "password": "')) or (('x'))=(('x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\" or \"x\"=\"x",
+        "password": "\" or \"x\"=\"x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\") or (\"x\")=(\"x",
+        "password": "\") or (\"x\")=(\"x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "\")) or ((\"x\"))=((\"x",
+        "password": "\")) or ((\"x\"))=((\"x"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "or 1=1",
+        "password": "or 1=1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "or 1=1--",
+        "password": "or 1=1--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "or 1=1#",
+        "password": "or 1=1#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "or 1=1/*",
+        "password": "or 1=1/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' --",
+        "password": "admin' --"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' #",
+        "password": "admin' #"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin'/*",
+        "password": "admin'/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or '1'='1",
+        "password": "admin' or '1'='1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or '1'='1'--",
+        "password": "admin' or '1'='1'--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or '1'='1'#",
+        "password": "admin' or '1'='1'#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or '1'='1'/*",
+        "password": "admin' or '1'='1'/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin'or 1=1 or ''='",
+        "password": "admin'or 1=1 or ''='"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or 1=1",
+        "password": "admin' or 1=1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or 1=1--",
+        "password": "admin' or 1=1--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or 1=1#",
+        "password": "admin' or 1=1#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin' or 1=1/*",
+        "password": "admin' or 1=1/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin') or ('1'='1",
+        "password": "admin') or ('1'='1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:50",
+      "input": {
+        "username": "admin') or ('1'='1'--",
+        "password": "admin') or ('1'='1'--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or ('1'='1'#",
+        "password": "admin') or ('1'='1'#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or ('1'='1'/*",
+        "password": "admin') or ('1'='1'/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or '1'='1",
+        "password": "admin') or '1'='1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or '1'='1'--",
+        "password": "admin') or '1'='1'--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or '1'='1'#",
+        "password": "admin') or '1'='1'#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin') or '1'='1'/*",
+        "password": "admin') or '1'='1'/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "1234 ' AND 1=0 UNION ALL SELECT 'admin', '81dc9bdb52d04dc20036dbd8313ed055",
+        "password": "1234 ' AND 1=0 UNION ALL SELECT 'admin', '81dc9bdb52d04dc20036dbd8313ed055"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" --",
+        "password": "admin\" --"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" #",
+        "password": "admin\" #"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\"/*",
+        "password": "admin\"/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or \"1\"=\"1",
+        "password": "admin\" or \"1\"=\"1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or \"1\"=\"1\"--",
+        "password": "admin\" or \"1\"=\"1\"--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or \"1\"=\"1\"#",
+        "password": "admin\" or \"1\"=\"1\"#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or \"1\"=\"1\"/*",
+        "password": "admin\" or \"1\"=\"1\"/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\"or 1=1 or \"\"=\"",
+        "password": "admin\"or 1=1 or \"\"=\""
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or 1=1",
+        "password": "admin\" or 1=1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or 1=1--",
+        "password": "admin\" or 1=1--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or 1=1#",
+        "password": "admin\" or 1=1#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\" or 1=1/*",
+        "password": "admin\" or 1=1/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or (\"1\"=\"1",
+        "password": "admin\") or (\"1\"=\"1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or (\"1\"=\"1\"--",
+        "password": "admin\") or (\"1\"=\"1\"--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or (\"1\"=\"1\"#",
+        "password": "admin\") or (\"1\"=\"1\"#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or (\"1\"=\"1\"/*",
+        "password": "admin\") or (\"1\"=\"1\"/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or \"1\"=\"1",
+        "password": "admin\") or \"1\"=\"1"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or \"1\"=\"1\"--",
+        "password": "admin\") or \"1\"=\"1\"--"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or \"1\"=\"1\"#",
+        "password": "admin\") or \"1\"=\"1\"#"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "admin\") or \"1\"=\"1\"/*",
+        "password": "admin\") or \"1\"=\"1\"/*"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-11-29 00:09:51",
+      "input": {
+        "username": "1234 \" AND 1=0 UNION ALL SELECT \"admin\", \"81dc9bdb52d04dc20036dbd8313ed055",
+        "password": "1234 \" AND 1=0 UNION ALL SELECT \"admin\", \"81dc9bdb52d04dc20036dbd8313ed055"
+      },
+      "output": {
+        "status": 401,
+        "response": {
+          "error": "Tên người dùng hoặc mật khẩu không đúng"
+        }
+      }
+    }
+  ]
+}
