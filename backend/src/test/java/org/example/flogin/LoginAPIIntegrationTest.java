@@ -49,7 +49,7 @@ class LoginAPIIntegrationTest {
         AccountDTO acc = new AccountDTO(1L,"testuser","123456",LocalDateTime.now());
         
 
-        when(accountService.validateLogin(anyString(),anyString())).thenReturn(true);
+        when(accountService.validateLogin(eq("testuser"),eq("123456"))).thenReturn(true);
         
         when(accountService.getAccountByUsername(anyString()))
             .thenReturn(Optional.of(acc));
@@ -65,12 +65,12 @@ class LoginAPIIntegrationTest {
     @DisplayName("POST /api/accounts/login - Wrong Password")
     void testLoginFailWrongPassword() throws Exception {
 
-        LoginRequestDTO testAcc = new LoginRequestDTO("testuser","123456");
+        LoginRequestDTO testAcc = new LoginRequestDTO("testuser","1234567");
         
         AccountDTO acc = new AccountDTO(1L,"testuser","123456",LocalDateTime.now());
         
 
-        when(accountService.validateLogin(anyString(),anyString())).thenReturn(false);
+        when(accountService.validateLogin(anyString(),eq("123456"))).thenReturn(true);
         
         when(accountService.getAccountByUsername(anyString()))
             .thenReturn(Optional.of(acc));
