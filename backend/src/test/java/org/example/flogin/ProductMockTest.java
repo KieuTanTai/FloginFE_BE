@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class ProductMockTest {
 
     @Mock
     private ProductRepository productRepository;
