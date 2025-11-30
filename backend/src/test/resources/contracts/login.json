@@ -1,0 +1,25 @@
+{
+  "name": "login_success",
+  "request": {
+    "method": "POST",
+    "url": "/login",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "username": "testuser",
+      "password": "Test123"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "message": "Login thành công",
+      "token": "eyJhbGciOiJIUzI1NiJ9..."
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

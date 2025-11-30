@@ -100,7 +100,7 @@ export default function LoginForm({
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="login-btn" disabled={isLoading}>
+            <button id="login-btn" type="submit" className="login-btn" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <span className="spinner"></span>
