@@ -83,24 +83,15 @@ describe("LoginForm Integration Test", () => {
             };
 
             (accountService.login as jest.Mock).mockResolvedValue(mockAccount);
-
             render(<LoginForm onLoginSuccess={mockOnSuccess} />);
-
-            // ---- User nhập username & password ----
             fireEvent.change(screen.getByPlaceholderText("Nhập tên đăng nhập"), {
                 target: { value: "Testuser" },
             });
             fireEvent.change(screen.getByPlaceholderText("Nhập mật khẩu"), {
                 target: { value: "123456" },
             });
-
-            // ---- User nhấn nút đăng nhập ----
             fireEvent.click(screen.getByRole("button", { name: "Đăng Nhập" }));
-
-            // ---- UI phải hiện loading ----
             expect(screen.getByText("Đang đăng nhập...")).toBeInTheDocument();
-
-            // ---- API resolve → onSuccess được gọi ----
             await waitFor(() => {
                 expect(mockOnSuccess).toHaveBeenCalledTimes(1);
                 expect(mockOnSuccess).toHaveBeenCalledWith(mockAccount);
@@ -111,37 +102,27 @@ describe("LoginForm Integration Test", () => {
             (accountService.login as jest.Mock).mockRejectedValue(
                 new Error("Sai thông tin đăng nhập")
             );
-
             render(<LoginForm onLoginSuccess={mockOnSuccess} />);
-
             fireEvent.change(screen.getByPlaceholderText("Nhập tên đăng nhập"), {
                 target: { value: "sai-user" },
             });
             fireEvent.change(screen.getByPlaceholderText("Nhập mật khẩu"), {
                 target: { value: "sai-pass" },
             });
-
             fireEvent.click(screen.getByRole("button", { name: "Đăng Nhập" }));
-
-            // ---- UI phải hiện message lỗi từ API ----
             expect(
                 await screen.findByText("Sai thông tin đăng nhập")
             ).toBeInTheDocument();
-
             expect(mockOnSuccess).not.toHaveBeenCalled();
         });
 
         test("Để trống username/password và hiển thị lỗi validate", async () => {
             render(<LoginForm onLoginSuccess={mockOnSuccess} />);
-
             fireEvent.click(screen.getByRole("button", { name: "Đăng Nhập" }));
-
             expect(
                 await screen.findByText("Vui lòng nhập đầy đủ thông tin")
             ).toBeInTheDocument();
             expect(mockOnSuccess).not.toHaveBeenCalled();
         });
-
-        
     });
 });
