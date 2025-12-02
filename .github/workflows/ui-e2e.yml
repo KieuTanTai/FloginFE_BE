@@ -22,7 +22,12 @@ jobs:
       - name: Install frontend deps & build
         working-directory: frontend
         run: |
-          npm ci
+          # prefer `npm ci` when a lockfile exists; otherwise fall back to `npm install`
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci
+          else
+            npm install
+          fi
           npm run build
 
       - name: Serve frontend dist
