@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.example.flogin.dto.AccountDTO;
 import org.example.flogin.entity.Account;
 import org.example.flogin.repository.AccountRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import io.micrometer.common.lang.NonNull;
 @Service
 @Transactional
 public class AccountService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -40,6 +44,7 @@ public class AccountService {
         account.setCreatedDate(LocalDateTime.now());
 
         Account savedAccount = accountRepository.save(account);
+        logger.info("Created account username={}", savedAccount.getUsername());
         return convertToDTO(savedAccount);
     }
 
@@ -101,6 +106,7 @@ public class AccountService {
 
         if (accountDTO.getPassword() != null && !accountDTO.getPassword().isEmpty()) {
             account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+            logger.info("Updated password for account id={} username={}", id, account.getUsername());
         }
         if (account == null) {
             throw new IllegalArgumentException("Account must not be null");

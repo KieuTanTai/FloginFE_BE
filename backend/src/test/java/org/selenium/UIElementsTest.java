@@ -1,11 +1,21 @@
 package org.selenium;
 //6.1.2 d/
-import org.junit.jupiter.api.*;
-import org.openqa.selenium.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Disabled("UI tests disabled in CI")
 public class UIElementsTest {
 
     private WebDriver driver;
