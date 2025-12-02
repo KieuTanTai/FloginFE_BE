@@ -45,6 +45,9 @@ public class LoginE2ETest {
         );
 
         ResponseEntity<AccountDTO> loginResp = restTemplate.postForEntity("/api/accounts/login", loginPayload, AccountDTO.class);
+        // Print specific DTO fields (id, username) for easier debugging in CI logs
+        AccountDTO logged = loginResp.getBody();
+        System.out.println("[LoginE2ETest] loginResp.status=" + loginResp.getStatusCode() + " id=" + (logged != null ? logged.getId() : null) + " username=" + (logged != null ? logged.getUsername() : null));
         assertEquals(HttpStatus.OK, loginResp.getStatusCode(), "Login should succeed with correct credentials");
         assertNotNull(loginResp.getBody(), "Login response body should not be null");
         assertEquals(username, loginResp.getBody().getUsername(), "Logged-in username should match");
@@ -57,6 +60,8 @@ public class LoginE2ETest {
 
         HttpEntity<Map<String, String>> badReq = new HttpEntity<>(badLogin);
         ResponseEntity<String> badResp = restTemplate.postForEntity("/api/accounts/login", badReq, String.class);
+        // Print the failed login response (status + body) so it's visible in test output
+        System.out.println("[LoginE2ETest] badLoginResp.status=" + badResp.getStatusCode() + " body=" + badResp.getBody());
         assertEquals(HttpStatus.UNAUTHORIZED, badResp.getStatusCode(), "Login with wrong password should be UNAUTHORIZED");
     }
 }
