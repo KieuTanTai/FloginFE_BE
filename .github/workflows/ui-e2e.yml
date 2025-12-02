@@ -1,0 +1,51 @@
+name: UI E2E Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  ui-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install frontend deps & build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Serve frontend dist
+        working-directory: frontend/dist
+        run: |
+          # start a simple static server in background on port 5173
+          python -m http.server 5173 &
+
+      - name: Wait for frontend
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sSf http://localhost:5173 >/dev/null; then echo "frontend ready" && break; fi
+            sleep 1
+          done
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Run Selenium UI tests (headless)
+        working-directory: backend
+        run: |
+          mvn "-Dtest=org.selenium.UIElementsE2ETest,org.selenium.ValidationE2ETest" \
+              test -DtrimStackTrace=false -Dui.headless=true -D"ui.baseUrl=http://localhost"
