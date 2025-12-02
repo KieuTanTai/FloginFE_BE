@@ -35,18 +35,15 @@
 
 
         <!-- Selenium  cai dat-->
-        
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        
     </dependency>
     <!-- WebDriverManager: tự quản lý ChromeDriver -->
    <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
         <version>5.8.0</version>
-        
     </dependency>
     
     <dependency>

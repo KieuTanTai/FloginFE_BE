@@ -27,7 +27,8 @@ public class AccountValidationIntegrationTest {
                 "password", "password123"
         );
 
-        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts", payload, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts",
+        payload, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         assertTrue(resp.getBody().contains("Tên người dùng không được để trống"));
     }
@@ -40,7 +41,8 @@ public class AccountValidationIntegrationTest {
                 "password", "123"
         );
 
-        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts", payload, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts", payload,
+         String.class);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         assertTrue(resp.getBody().contains("Mật khẩu phải có ít nhất 6 ký tự"));
     }
@@ -53,7 +55,8 @@ public class AccountValidationIntegrationTest {
                 "password", "whatever"
         );
 
-        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts/login", payload, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts/login",
+         payload, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         assertTrue(resp.getBody().contains("Tên người dùng không được để trống"));
     }
@@ -65,8 +68,8 @@ public class AccountValidationIntegrationTest {
                 "username", "someuser",
                 "password", ""
         );
-
-        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts/login", payload, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/accounts/login",
+         payload, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, resp.getStatusCode());
         assertTrue(resp.getBody().contains("Mật khẩu không được để trống"));
     }

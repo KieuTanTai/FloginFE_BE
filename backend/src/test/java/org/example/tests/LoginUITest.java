@@ -1,5 +1,6 @@
 package org.example.tests;
 // file này setup POM 
+import org.example.pages.HomePage;
 import org.example.pages.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +39,8 @@ public class LoginUITest {
         loginPage.enterPassword("admin123");
         loginPage.clickLogin();
 
-        // Kiểm tra page title sau login, ví dụ Home page
-        assertEquals("Home", loginPage.getPageTitle());
+        // Use HomePage Page Object after login
+        HomePage home = new HomePage(driver);
+        assertEquals("Home", home.getPageTitle());
     }
 }

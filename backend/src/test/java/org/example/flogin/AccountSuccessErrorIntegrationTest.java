@@ -34,14 +34,16 @@ public class AccountSuccessErrorIntegrationTest {
         );
 
         // First create should succeed
-        ResponseEntity<AccountDTO> createResp = restTemplate.postForEntity("/api/accounts", payload, AccountDTO.class);
+        ResponseEntity<AccountDTO> createResp = restTemplate.postForEntity("/api/accounts"
+        , payload, AccountDTO.class);
         assertEquals(HttpStatus.OK, createResp.getStatusCode());
         assertNotNull(createResp.getBody());
         assertEquals(username, createResp.getBody().getUsername());
         assertNotNull(createResp.getBody().getId());
 
         // Second create (same username) should return 400 with a message indicating existence
-        ResponseEntity<String> dupResp = restTemplate.postForEntity("/api/accounts", payload, String.class);
+        ResponseEntity<String> dupResp = restTemplate.postForEntity("/api/accounts",
+         payload, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, dupResp.getStatusCode());
         assertTrue(dupResp.getBody().contains("đã tồn tại") || dupResp.getBody().toLowerCase().contains("exists"));
     }
@@ -57,7 +59,8 @@ public class AccountSuccessErrorIntegrationTest {
                 "password", password
         );
 
-        ResponseEntity<AccountDTO> createResp = restTemplate.postForEntity("/api/accounts", createPayload, AccountDTO.class);
+        ResponseEntity<AccountDTO> createResp = restTemplate.postForEntity("/api/accounts",
+         createPayload, AccountDTO.class);
         assertEquals(HttpStatus.OK, createResp.getStatusCode());
 
         // Login with correct credentials
@@ -66,7 +69,8 @@ public class AccountSuccessErrorIntegrationTest {
                 "password", password
         );
 
-        ResponseEntity<AccountDTO> loginResp = restTemplate.postForEntity("/api/accounts/login", loginPayload, AccountDTO.class);
+        ResponseEntity<AccountDTO> loginResp = restTemplate.postForEntity("/api/accounts/login",
+         loginPayload, AccountDTO.class);
         assertEquals(HttpStatus.OK, loginResp.getStatusCode());
         assertNotNull(loginResp.getBody());
         assertEquals(username, loginResp.getBody().getUsername());
@@ -77,8 +81,10 @@ public class AccountSuccessErrorIntegrationTest {
                 "password", "wrong-pass"
         );
         HttpEntity<Map<String, String>> badReq = new HttpEntity<>(badLogin);
-        ResponseEntity<String> badResp = restTemplate.postForEntity("/api/accounts/login", badReq, String.class);
+        ResponseEntity<String> badResp = restTemplate.postForEntity("/api/accounts/login", 
+        badReq, String.class);
         assertEquals(HttpStatus.UNAUTHORIZED, badResp.getStatusCode());
-        assertTrue(badResp.getBody().contains("Tên người dùng hoặc mật khẩu không đúng") || badResp.getBody().toLowerCase().contains("wrong"));
+        assertTrue(badResp.getBody().contains("Tên người dùng hoặc mật khẩu không đúng") ||
+         badResp.getBody().toLowerCase().contains("wrong"));
     }
 }
