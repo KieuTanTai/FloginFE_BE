@@ -1,89 +1,291 @@
+package org.example.flogin;
+
+import org.example.flogin.controller.AccountController;
+import org.example.flogin.dto.AccountDTO;
+import org.example.flogin.service.AccountService;
+import org.example.flogin.config.SecurityConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
-class AccountDTO {
-    private Long id;
-    private String username;
-    private LocalDateTime createdDate;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    public AccountDTO(Long id, String username, LocalDateTime createdDate) {
-        this.id = id;
-        this.username = username;
-        this.createdDate = createdDate;
+/**
+ * 4.1 Login Mock Testing
+ * a) Mock AccountService với @MockBean
+ * b) Test controller với mocked service
+ * c) Verify mock interactions
+ */
+@WebMvcTest(controllers = AccountController.class)
+@Import(SecurityConfig.class)
+@DisplayName("4.1 Login Mock Testing - AccountController với Mocked Service")
+class AccountControllerMockTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    // a) Mock AccountService với @MockBean
+    @MockBean
+    private AccountService accountService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    // ========================================
+    // b) Test controller với mocked service
+    // ========================================
+
+    @Test
+    @DisplayName("Mock Test - Login thành công với mocked service")
+    void testLoginSuccess_WithMockedService() throws Exception {
+        // Arrange: Setup mock data
+        String username = "admin";
+        String password = "admin123";
+        
+        AccountDTO mockAccount = new AccountDTO(
+            1L, 
+            username, 
+            null,  // Password không được trả về
+            LocalDateTime.now()
+        );
+
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", password
+        );
+
+        // Mock service behavior
+        when(accountService.validateLogin(eq(username), eq(password)))
+            .thenReturn(true);
+        
+        when(accountService.getAccountByUsername(eq(username)))
+            .thenReturn(Optional.of(mockAccount));
+
+        // Act & Assert: Perform request and verify response
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.username").value(username))
+                .andExpect(jsonPath("$.createdDate").exists());
+
+        // c) Verify mock interactions
+        verify(accountService, times(1)).validateLogin(eq(username), eq(password));
+        verify(accountService, times(1)).getAccountByUsername(eq(username));
+        verifyNoMoreInteractions(accountService);
     }
 
-    public Long getId() { return id; }
-    public String getUsername() { return username; }
-    public LocalDateTime getCreatedDate() { return createdDate; }
-}
+    @Test
+    @DisplayName("Mock Test - Login thất bại - sai mật khẩu")
+    void testLoginFailure_WrongPassword_WithMockedService() throws Exception {
+        // Arrange
+        String username = "admin";
+        String wrongPassword = "wrongpass";
+        
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", wrongPassword
+        );
 
-interface AccountService {
-    boolean validateLogin(String username, String password);
-    Optional<AccountDTO> getAccountByUsername(String username);
-}
+        // Mock service to return false for wrong password
+        when(accountService.validateLogin(eq(username), eq(wrongPassword)))
+            .thenReturn(false);
 
-public class AccountControllerMockTest{
-    static int passed = 0, total = 0;
+        // Act & Assert
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("Tên người dùng hoặc mật khẩu không đúng"));
 
-    public static void main(String[] args) {
-        System.out.println("4.1 AccountController Mock Testing - Giả lập trên JDoodle\n");
+        // c) Verify mock interactions
+        verify(accountService, times(1)).validateLogin(eq(username), eq(wrongPassword));
+        verify(accountService, never()).getAccountByUsername(anyString());
+        verifyNoMoreInteractions(accountService);
+    }
 
-        // Tạo Mock Service
-        AccountService service = new AccountService() {
-            @Override
-            public boolean validateLogin(String u, String p) {
-                System.out.println("   [Mock] validateLogin(\"" + u + "\", \"" + p + "\")");
-                return "admin".equals(u) && "admin123".equals(p);
-            }
+    @Test
+    @DisplayName("Mock Test - Login thất bại - username không tồn tại")
+    void testLoginFailure_UserNotFound_WithMockedService() throws Exception {
+        // Arrange
+        String username = "nonexistent";
+        String password = "password123";
+        
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", password
+        );
 
-            @Override
-            public Optional<AccountDTO> getAccountByUsername(String u) {
-                System.out.println("   [Mock] getAccountByUsername(\"" + u + "\")");
-                if ("admin".equals(u)) {
-                    return Optional.of(new AccountDTO(1L, "admin", LocalDateTime.now()));
-                }
-                return Optional.empty();
-            }
-        };
+        // Mock service to return false for non-existent user
+        when(accountService.validateLogin(eq(username), eq(password)))
+            .thenReturn(false);
 
-        // Test 1: Login thành công
-        assertTrue(service.validateLogin("admin", "admin123"), "Login thành công → true");
-        assertTrue(service.getAccountByUsername("admin").isPresent(), "Lấy được account sau login");
+        // Act & Assert
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("Tên người dùng hoặc mật khẩu không đúng"));
 
-        // Test 2: Sai mật khẩu
-        assertFalse(service.validateLogin("admin", "wrongpass"), "Sai mật khẩu → false");
-        assertFalse(service.getAccountByUsername("admin").isPresent() == false, "Không gọi getAccountByUsername khi validateLogin thất bại");
+        // c) Verify mock interactions
+        verify(accountService, times(1)).validateLogin(eq(username), eq(password));
+        verify(accountService, never()).getAccountByUsername(anyString());
+    }
 
-        // Test 3: User không tồn tại
-        assertFalse(service.validateLogin("ghost", "123"), "User không tồn tại → false");
+    @Test
+    @DisplayName("Mock Test - Login thất bại - thiếu username")
+    void testLoginFailure_MissingUsername_WithMockedService() throws Exception {
+        // Arrange
+        Map<String, String> credentials = Map.of(
+            "username", "",
+            "password", "password123"
+        );
 
-        // Test 4: Thiếu username/password (giả lập validation ở controller)
-        assertTrue("".isEmpty(), "Thiếu username → validation fail (Bad Request)");
-        assertTrue("".isEmpty(), "Thiếu password → validation fail (Bad Request)");
+        // Act & Assert
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Tên người dùng không được để trống"));
 
-        // Test 5: Nhiều lần login thành công
+        // c) Verify no service interaction when validation fails early
+        verify(accountService, never()).validateLogin(anyString(), anyString());
+        verify(accountService, never()).getAccountByUsername(anyString());
+    }
+
+    @Test
+    @DisplayName("Mock Test - Login thất bại - thiếu password")
+    void testLoginFailure_MissingPassword_WithMockedService() throws Exception {
+        // Arrange
+        Map<String, String> credentials = Map.of(
+            "username", "admin",
+            "password", ""
+        );
+
+        // Act & Assert
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Mật khẩu không được để trống"));
+
+        // c) Verify no service interaction when validation fails early
+        verify(accountService, never()).validateLogin(anyString(), anyString());
+        verify(accountService, never()).getAccountByUsername(anyString());
+    }
+
+    @Test
+    @DisplayName("Mock Test - Verify multiple login attempts")
+    void testMultipleLoginAttempts_WithMockedService() throws Exception {
+        // Arrange
+        String username = "testuser";
+        String password = "test123";
+        
+        AccountDTO mockAccount = new AccountDTO(
+            2L, 
+            username, 
+            null, 
+            LocalDateTime.now()
+        );
+
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", password
+        );
+
+        // Mock service for successful login
+        when(accountService.validateLogin(eq(username), eq(password)))
+            .thenReturn(true);
+        when(accountService.getAccountByUsername(eq(username)))
+            .thenReturn(Optional.of(mockAccount));
+
+        // Act: Perform 3 login attempts
         for (int i = 0; i < 3; i++) {
-            service.validateLogin("admin", "admin123");
-            service.getAccountByUsername("admin");
+            mockMvc.perform(post("/api/accounts/login")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(credentials)))
+                    .andExpect(status().isOk());
         }
-        assertTrue(true, "3 lần login thành công → gọi service 3 lần mỗi method");
 
-        System.out.println("\nKết quả AccountController Tests:");
-        System.out.println("PASSED: " + passed + " / " + total);
-        System.out.println(passed == total ? "TẤT CẢ TEST ĐẠT!" : "CÓ TEST LỖI!");
+        // c) Verify service was called exactly 3 times for each method
+        verify(accountService, times(3)).validateLogin(eq(username), eq(password));
+        verify(accountService, times(3)).getAccountByUsername(eq(username));
     }
 
-    static void assertTrue(boolean condition, String message) {
-        total++;
-        if (condition) {
-            passed++;
-            System.out.println("PASS: " + message);
-        } else {
-            System.out.println("FAIL: " + message);
-        }
+    @Test
+    @DisplayName("Mock Test - ArgumentCaptor example")
+    void testLoginWithArgumentCaptor_WithMockedService() throws Exception {
+        // Arrange
+        String username = "captortest";
+        String password = "pass123";
+        
+        AccountDTO mockAccount = new AccountDTO(
+            3L, 
+            username, 
+            null, 
+            LocalDateTime.now()
+        );
+
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", password
+        );
+
+        when(accountService.validateLogin(anyString(), anyString()))
+            .thenReturn(true);
+        when(accountService.getAccountByUsername(anyString()))
+            .thenReturn(Optional.of(mockAccount));
+
+        // Act
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().isOk());
+
+        // c) Verify with exact argument values
+        verify(accountService).validateLogin(eq(username), eq(password));
+        verify(accountService).getAccountByUsername(eq(username));
     }
 
-    static void assertFalse(boolean condition, String message) {
-        assertTrue(!condition, message);
+    @Test
+    @DisplayName("Mock Test - Service throws exception")
+    void testLoginServiceException_WithMockedService() throws Exception {
+        // Arrange
+        String username = "erroruser";
+        String password = "error123";
+        
+        Map<String, String> credentials = Map.of(
+            "username", username,
+            "password", password
+        );
+
+        // Mock service to throw exception
+        when(accountService.validateLogin(eq(username), eq(password)))
+            .thenThrow(new RuntimeException("Database connection error"));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/accounts/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(credentials)))
+                .andExpect(status().is5xxServerError());
+
+        // c) Verify service was called
+        verify(accountService, times(1)).validateLogin(eq(username), eq(password));
     }
 }
