@@ -35,7 +35,7 @@ public class AccountService {
         validateAccountBusinessRules(accountDTO);
 
         if (accountRepository.existsByUsername(accountDTO.getUsername())) {
-            throw new RuntimeException("Tên người dùng đã tồn tại");
+            throw new RuntimeException("Username already exists");
         }
 
         Account account = new Account();
@@ -52,21 +52,21 @@ public class AccountService {
     private void validateAccountBusinessRules(AccountDTO accountDTO) {
         // Username validation (3-50 characters, not empty)
         if (accountDTO.getUsername() == null || accountDTO.getUsername().trim().isEmpty()) {
-            throw new IllegalArgumentException("Tên người dùng không được để trống");
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if (accountDTO.getUsername().length() < 3) {
-            throw new IllegalArgumentException("Tên người dùng phải có ít nhất 3 ký tự");
+            throw new IllegalArgumentException("Username must have at least 3 characters");
         }
         if (accountDTO.getUsername().length() > 50) {
-            throw new IllegalArgumentException("Tên người dùng không được vượt quá 50 ký tự");
+            throw new IllegalArgumentException("Username cannot exceed 50 characters");
         }
 
         // Password validation (min 6 characters)
         if (accountDTO.getPassword() == null || accountDTO.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("Mật khẩu không được để trống");
+            throw new IllegalArgumentException("Password cannot be empty");
         }
         if (accountDTO.getPassword().length() < 6) {
-            throw new IllegalArgumentException("Mật khẩu phải có ít nhất 6 ký tự");
+            throw new IllegalArgumentException("Password must have at least 6 characters");
         }
     }
 

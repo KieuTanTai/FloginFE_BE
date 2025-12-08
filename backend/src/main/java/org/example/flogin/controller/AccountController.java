@@ -31,21 +31,21 @@ public class AccountController {
     private void validateAccountInput(AccountDTO accountDTO) {
         // Validate username (not empty, 3-50 characters)
         if (accountDTO.getUsername() == null || accountDTO.getUsername().trim().isEmpty()) {
-            throw new IllegalArgumentException("Tên người dùng không được để trống");
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if (accountDTO.getUsername().length() < 3) {
-            throw new IllegalArgumentException("Tên người dùng phải có ít nhất 3 ký tự");
+            throw new IllegalArgumentException("Username must have at least 3 characters");
         }
         if (accountDTO.getUsername().length() > 50) {
-            throw new IllegalArgumentException("Tên người dùng không được vượt quá 50 ký tự");
+            throw new IllegalArgumentException("Username cannot exceed 50 characters");
         }
 
         // Validate password (not empty, min 6 characters)
         if (accountDTO.getPassword() == null || accountDTO.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("Mật khẩu không được để trống");
+            throw new IllegalArgumentException("Password cannot be empty");
         }
         if (accountDTO.getPassword().length() < 6) {
-            throw new IllegalArgumentException("Mật khẩu phải có ít nhất 6 ký tự");
+            throw new IllegalArgumentException("Password must have at least 6 characters");
         }
     }
 
@@ -104,10 +104,10 @@ public class AccountController {
 
         // Validate login input
         if (username == null || username.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Tên người dùng không được để trống"));
+            return ResponseEntity.badRequest().body(Map.of("error", "Username cannot be empty"));
         }
         if (password == null || password.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Mật khẩu không được để trống"));
+            return ResponseEntity.badRequest().body(Map.of("error", "Password cannot be empty"));
         }
 
         boolean isValid = accountService.validateLogin(username, password);
@@ -118,7 +118,7 @@ public class AccountController {
                     .orElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Tên người dùng hoặc mật khẩu không đúng"));
+                    .body(Map.of("error", "Invalid username or password"));
         }
     }
 }

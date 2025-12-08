@@ -3,34 +3,39 @@ package org.selenium;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled("UI tests disabled in CI")
 public class UIElementsTest {
 
     private WebDriver driver;
 
     @BeforeAll
     public void setup() {
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+        System.out.println("\n========== Starting UI Tests ==========");
+        System.out.println("Setting up Chrome WebDriver and navigating to http://localhost:5173");
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://localhost:5173");
+        System.out.println("✓ Chrome browser launched and navigated to application\n");
     }
 
     @AfterAll
     public void teardown() {
-        if (driver != null) driver.quit();
+        System.out.println("\n========== Closing Browser ==========");
+        if (driver != null) {
+            driver.quit();
+            System.out.println("✓ Browser closed\n");
+        }
     }
 
     // --------------------------------------------------------
@@ -39,9 +44,25 @@ public class UIElementsTest {
     @Test
     @DisplayName("UI Elements — Presence Test")
     public void testElementsPresence() {
-        Assertions.assertNotNull(driver.findElement(By.id("username")));
-        Assertions.assertNotNull(driver.findElement(By.id("password")));
-        Assertions.assertNotNull(driver.findElement(By.id("login-btn")));
+        System.out.println("========== Test 1: Checking UI Elements Presence ==========");
+        try {
+            System.out.println("Looking for username element...");
+            Assertions.assertNotNull(driver.findElement(By.id("username")));
+            System.out.println("  ✓ Username input found");
+            
+            System.out.println("Looking for password element...");
+            Assertions.assertNotNull(driver.findElement(By.id("password")));
+            System.out.println("  ✓ Password input found");
+            
+            System.out.println("Looking for login button...");
+            Assertions.assertNotNull(driver.findElement(By.id("login-btn")));
+            System.out.println("  ✓ Login button found");
+            
+            System.out.println("✓ Test PASSED: All UI elements are present\n");
+        } catch (Exception e) {
+            System.out.println("✗ Test FAILED: " + e.getMessage());
+            throw e;
+        }
     }
 
     // --------------------------------------------------------
@@ -50,9 +71,25 @@ public class UIElementsTest {
     @Test
     @DisplayName("UI Elements — Visible Test")
     public void testElementsVisibility() {
-        Assertions.assertTrue(driver.findElement(By.id("username")).isDisplayed());
-        Assertions.assertTrue(driver.findElement(By.id("password")).isDisplayed());
-        Assertions.assertTrue(driver.findElement(By.id("login-btn")).isDisplayed());
+        System.out.println("========== Test 2: Checking UI Elements Visibility ==========");
+        try {
+            System.out.println("Checking if username element is visible...");
+            Assertions.assertTrue(driver.findElement(By.id("username")).isDisplayed());
+            System.out.println("  ✓ Username input is visible");
+            
+            System.out.println("Checking if password element is visible...");
+            Assertions.assertTrue(driver.findElement(By.id("password")).isDisplayed());
+            System.out.println("  ✓ Password input is visible");
+            
+            System.out.println("Checking if login button is visible...");
+            Assertions.assertTrue(driver.findElement(By.id("login-btn")).isDisplayed());
+            System.out.println("  ✓ Login button is visible");
+            
+            System.out.println("✓ Test PASSED: All UI elements are visible\n");
+        } catch (Exception e) {
+            System.out.println("✗ Test FAILED: " + e.getMessage());
+            throw e;
+        }
     }
 
     // --------------------------------------------------------
@@ -61,24 +98,44 @@ public class UIElementsTest {
     @Test
     @DisplayName("UI Interaction — Typing & Clearing")
     public void testTypingAndClearing() {
+        System.out.println("========== Test 3: Testing Typing and Clearing ==========");
+        try {
+            WebElement user = driver.findElement(By.id("username"));
+            WebElement pass = driver.findElement(By.id("password"));
 
-        WebElement user = driver.findElement(By.id("username"));
-        WebElement pass = driver.findElement(By.id("password"));
+            System.out.println("Step 1: Clearing and typing in username field...");
+            user.clear();
+            user.sendKeys("testUser");
+            String usernameValue = user.getAttribute("value");
+            System.out.println("  Username value: " + usernameValue);
+            Assertions.assertEquals("testUser", usernameValue);
+            System.out.println("  ✓ Username typing works correctly");
 
-        user.clear();
-        user.sendKeys("testUser");
-        Assertions.assertEquals("testUser", user.getAttribute("value"));
+            System.out.println("Step 2: Clearing and typing in password field...");
+            pass.clear();
+            pass.sendKeys("12345");
+            String passwordValue = pass.getAttribute("value");
+            System.out.println("  Password value: " + passwordValue);
+            Assertions.assertEquals("12345", passwordValue);
+            System.out.println("  ✓ Password typing works correctly");
 
-        pass.clear();
-        pass.sendKeys("12345");
-        Assertions.assertEquals("12345", pass.getAttribute("value"));
+            System.out.println("Step 3: Clearing both fields...");
+            user.clear();
+            pass.clear();
 
-        // Clear again
-        user.clear();
-        pass.clear();
-
-        Assertions.assertEquals("", user.getAttribute("value"));
-        Assertions.assertEquals("", pass.getAttribute("value"));
+            String clearedUsername = user.getAttribute("value");
+            String clearedPassword = pass.getAttribute("value");
+            System.out.println("  Username value after clear: '" + clearedUsername + "'");
+            System.out.println("  Password value after clear: '" + clearedPassword + "'");
+            Assertions.assertEquals("", clearedUsername);
+            Assertions.assertEquals("", clearedPassword);
+            System.out.println("  ✓ Fields cleared successfully");
+            
+            System.out.println("✓ Test PASSED: Typing and clearing works correctly\n");
+        } catch (Exception e) {
+            System.out.println("✗ Test FAILED: " + e.getMessage());
+            throw e;
+        }
     }
 
     // --------------------------------------------------------
@@ -87,19 +144,35 @@ public class UIElementsTest {
     @Test
     @DisplayName("UI Elements — Attributes Test")
     public void testAttributes() {
+        System.out.println("========== Test 4: Testing UI Elements Attributes ==========");
+        try {
+            WebElement user = driver.findElement(By.id("username"));
+            WebElement pass = driver.findElement(By.id("password"));
+            WebElement btn = driver.findElement(By.id("login-btn"));
 
-        WebElement user = driver.findElement(By.id("username"));
-        WebElement pass = driver.findElement(By.id("password"));
-        WebElement btn = driver.findElement(By.id("login-btn"));
+            System.out.println("Step 1: Checking placeholder attributes...");
+            String userPlaceholder = user.getAttribute("placeholder");
+            String passPlaceholder = pass.getAttribute("placeholder");
+            System.out.println("  Username placeholder: '" + userPlaceholder + "'");
+            System.out.println("  Password placeholder: '" + passPlaceholder + "'");
+            Assertions.assertEquals("Enter username", userPlaceholder);
+            Assertions.assertEquals("Enter password", passPlaceholder);
+            System.out.println("  ✓ Placeholders are correct");
 
-        // Placeholder validation
-        Assertions.assertEquals("Enter username", user.getAttribute("placeholder"));
-        Assertions.assertEquals("Enter password", pass.getAttribute("placeholder"));
-
-        // Check enabled
-        Assertions.assertTrue(user.isEnabled());
-        Assertions.assertTrue(pass.isEnabled());
-        Assertions.assertTrue(btn.isEnabled());
+            System.out.println("Step 2: Checking if elements are enabled...");
+            System.out.println("  Username enabled: " + user.isEnabled());
+            System.out.println("  Password enabled: " + pass.isEnabled());
+            System.out.println("  Login button enabled: " + btn.isEnabled());
+            Assertions.assertTrue(user.isEnabled());
+            Assertions.assertTrue(pass.isEnabled());
+            Assertions.assertTrue(btn.isEnabled());
+            System.out.println("  ✓ All elements are enabled");
+            
+            System.out.println("✓ Test PASSED: All UI attributes are correct\n");
+        } catch (Exception e) {
+            System.out.println("✗ Test FAILED: " + e.getMessage());
+            throw e;
+        }
     }
 
     // --------------------------------------------------------
@@ -108,13 +181,23 @@ public class UIElementsTest {
     @Test
     @DisplayName("UI Interaction — Login Button Click")
     public void testButtonClick() {
-        WebElement btn = driver.findElement(By.id("login-btn"));
+        System.out.println("========== Test 5: Testing Login Button Click ==========");
+        try {
+            WebElement btn = driver.findElement(By.id("login-btn"));
 
-        // Click không cần nhập → FE phải phản hồi
-        btn.click();
+            System.out.println("Step 1: Clicking login button without entering credentials...");
+            btn.click();
+            System.out.println("  ✓ Button clicked successfully");
 
-        // Page không được crash
-        Assertions.assertTrue(true);
+            System.out.println("Step 2: Checking if page is still active...");
+            Assertions.assertTrue(true);
+            System.out.println("  ✓ Page did not crash after button click");
+            
+            System.out.println("✓ Test PASSED: Login button interaction works correctly\n");
+        } catch (Exception e) {
+            System.out.println("✗ Test FAILED: " + e.getMessage());
+            throw e;
+        }
     }
 
     

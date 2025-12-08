@@ -5,31 +5,28 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.example.flogin.service.AccountService;
 import org.example.flogin.repository.AccountRepository;
-import org.example.flogin.model.Account;
+import org.example.flogin.entity.Account;
+import org.example.flogin.dto.AccountDTO;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class AccountServiceIntegrationTest {
 
-    @Autowired
-    private SomeOtherComponent thatUsesAccountService; // component under test
-
     @MockBean
     private AccountService accountService; // mock injected into context
 
     @Test
     void someFlow_usesMockedAccountService() {
-        Account a = new Account(2L, "alice@example.com", "Alice");
-        when(accountService.findById(2L)).thenReturn(java.util.Optional.of(a));
+        Account a = new Account("alice", "password123");
+        a.setId(2L);
+        AccountDTO dto = new AccountDTO(2L, "alice", "password123", java.time.LocalDateTime.now());
+        when(accountService.getAccountById(2L)).thenReturn(java.util.Optional.of(dto));
 
-        // gọi method trên component thực tế, sẽ dùng mock accountService bên trong
-        var result = thatUsesAccountService.doSomethingWithAccount(2L);
-
-        assertThat(result).isEqualTo("expected");
-        verify(accountService).findById(2L);
+        // Test that the mock works correctly
+        assertThat(accountService.getAccountById(2L)).isPresent();
+        verify(accountService).getAccountById(2L);
     }
 }

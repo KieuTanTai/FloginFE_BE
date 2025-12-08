@@ -27,7 +27,7 @@ export default function LoginForm({
     setError(null);
 
     if (!username.trim() || !password.trim()) {
-      setError("Vui lòng nhập đầy đủ thông tin");
+      setError("Please enter all required information");
       return;
     }
 
@@ -37,7 +37,7 @@ export default function LoginForm({
       const account = await accountService.login({ username, password });
       onLoginSuccess(account);
     } catch (err: any) {
-      setError(err.message || "Đăng nhập thất bại");
+      setError(err.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
@@ -48,10 +48,10 @@ export default function LoginForm({
       <div className="login-card">
         <div className="login-header">
           <div className="full-width flex-col">
-            <h1>Đăng Nhập</h1>
+            <h1>Login</h1>
             <div className="flex-vertical">
                 <LogIn size={20} className="login-icon" />
-                <p>Quản Lý Sách</p>
+                <p>Book Management</p>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function LoginForm({
           <div className="form-group">
             <label htmlFor="username">
               <User size={18} />
-              Tên đăng nhập
+              Username
             </label>
             <input
               type="text"
@@ -75,7 +75,7 @@ export default function LoginForm({
               name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Nhập tên đăng nhập"
+              placeholder="Enter username"
               disabled={isLoading}
               autoComplete="username"
               autoFocus
@@ -85,7 +85,7 @@ export default function LoginForm({
           <div className="form-group">
             <label htmlFor="password">
               <Lock size={18} />
-              Mật khẩu
+              Password
             </label>
             <input
               type="password"
@@ -93,7 +93,7 @@ export default function LoginForm({
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Nhập mật khẩu"
+              placeholder="Enter password"
               disabled={isLoading}
               autoComplete="current-password"
             />
@@ -104,12 +104,12 @@ export default function LoginForm({
               {isLoading ? (
                 <>
                   <span className="spinner"></span>
-                  Đang đăng nhập...
+                  Logging in...
                 </>
               ) : (
                 <>
                   <LogIn size={18} />
-                  Đăng Nhập
+                  Login
                 </>
               )}
             </button>
@@ -120,7 +120,7 @@ export default function LoginForm({
                 onClick={onCancel}
                 disabled={isLoading}
               >
-                Hủy
+                Cancel
               </button>
             )}
           </div>
