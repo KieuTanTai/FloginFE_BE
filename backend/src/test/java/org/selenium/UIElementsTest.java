@@ -1,7 +1,9 @@
 package org.selenium;
 //6.1.2 d/
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,15 +49,15 @@ public class UIElementsTest {
         System.out.println("========== Test 1: Checking UI Elements Presence ==========");
         try {
             System.out.println("Looking for username element...");
-            Assertions.assertNotNull(driver.findElement(By.id("username")));
+            assertNotNull(driver.findElement(By.id("username")));
             System.out.println("  ✓ Username input found");
             
             System.out.println("Looking for password element...");
-            Assertions.assertNotNull(driver.findElement(By.id("password")));
+            assertNotNull(driver.findElement(By.id("password")));
             System.out.println("  ✓ Password input found");
             
             System.out.println("Looking for login button...");
-            Assertions.assertNotNull(driver.findElement(By.id("login-btn")));
+            assertNotNull(driver.findElement(By.id("login-btn")));
             System.out.println("  ✓ Login button found");
             
             System.out.println("✓ Test PASSED: All UI elements are present\n");
@@ -74,15 +76,15 @@ public class UIElementsTest {
         System.out.println("========== Test 2: Checking UI Elements Visibility ==========");
         try {
             System.out.println("Checking if username element is visible...");
-            Assertions.assertTrue(driver.findElement(By.id("username")).isDisplayed());
+            assertTrue(driver.findElement(By.id("username")).isDisplayed());
             System.out.println("  ✓ Username input is visible");
             
             System.out.println("Checking if password element is visible...");
-            Assertions.assertTrue(driver.findElement(By.id("password")).isDisplayed());
+            assertTrue(driver.findElement(By.id("password")).isDisplayed());
             System.out.println("  ✓ Password input is visible");
             
             System.out.println("Checking if login button is visible...");
-            Assertions.assertTrue(driver.findElement(By.id("login-btn")).isDisplayed());
+            assertTrue(driver.findElement(By.id("login-btn")).isDisplayed());
             System.out.println("  ✓ Login button is visible");
             
             System.out.println("✓ Test PASSED: All UI elements are visible\n");
@@ -108,7 +110,7 @@ public class UIElementsTest {
             user.sendKeys("testUser");
             String usernameValue = user.getAttribute("value");
             System.out.println("  Username value: " + usernameValue);
-            Assertions.assertEquals("testUser", usernameValue);
+            assertEquals("testUser", usernameValue);
             System.out.println("  ✓ Username typing works correctly");
 
             System.out.println("Step 2: Clearing and typing in password field...");
@@ -116,7 +118,7 @@ public class UIElementsTest {
             pass.sendKeys("12345");
             String passwordValue = pass.getAttribute("value");
             System.out.println("  Password value: " + passwordValue);
-            Assertions.assertEquals("12345", passwordValue);
+            assertEquals("12345", passwordValue);
             System.out.println("  ✓ Password typing works correctly");
 
             System.out.println("Step 3: Clearing both fields...");
@@ -127,8 +129,8 @@ public class UIElementsTest {
             String clearedPassword = pass.getAttribute("value");
             System.out.println("  Username value after clear: '" + clearedUsername + "'");
             System.out.println("  Password value after clear: '" + clearedPassword + "'");
-            Assertions.assertEquals("", clearedUsername);
-            Assertions.assertEquals("", clearedPassword);
+            assertEquals("", clearedUsername);
+            assertEquals("", clearedPassword);
             System.out.println("  ✓ Fields cleared successfully");
             
             System.out.println("✓ Test PASSED: Typing and clearing works correctly\n");
@@ -155,17 +157,17 @@ public class UIElementsTest {
             String passPlaceholder = pass.getAttribute("placeholder");
             System.out.println("  Username placeholder: '" + userPlaceholder + "'");
             System.out.println("  Password placeholder: '" + passPlaceholder + "'");
-            Assertions.assertEquals("Enter username", userPlaceholder);
-            Assertions.assertEquals("Enter password", passPlaceholder);
+            assertEquals("Enter username", userPlaceholder);
+            assertEquals("Enter password", passPlaceholder);
             System.out.println("  ✓ Placeholders are correct");
 
             System.out.println("Step 2: Checking if elements are enabled...");
             System.out.println("  Username enabled: " + user.isEnabled());
             System.out.println("  Password enabled: " + pass.isEnabled());
             System.out.println("  Login button enabled: " + btn.isEnabled());
-            Assertions.assertTrue(user.isEnabled());
-            Assertions.assertTrue(pass.isEnabled());
-            Assertions.assertTrue(btn.isEnabled());
+            assertTrue(user.isEnabled());
+            assertTrue(pass.isEnabled());
+            assertTrue(btn.isEnabled());
             System.out.println("  ✓ All elements are enabled");
             
             System.out.println("✓ Test PASSED: All UI attributes are correct\n");
@@ -190,7 +192,7 @@ public class UIElementsTest {
             System.out.println("  ✓ Button clicked successfully");
 
             System.out.println("Step 2: Checking if page is still active...");
-            Assertions.assertTrue(true);
+            assertTrue(true);
             System.out.println("  ✓ Page did not crash after button click");
             
             System.out.println("✓ Test PASSED: Login button interaction works correctly\n");
