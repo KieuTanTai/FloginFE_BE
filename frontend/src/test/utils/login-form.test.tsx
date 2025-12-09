@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LoginForm from "../../components/auth/login-form";
 import { accountService } from "../../services/accountService";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 jest.mock("../../services/accountService", () => ({
   accountService: {
@@ -42,7 +42,9 @@ describe("LoginForm Mock Tests", () => {
   });
 
   test("Mock: Login thất bại", async () => {
-    (accountService.login as jest.Mock).mockRejectedValue(new Error("Sai thông tin"));
+    (accountService.login as jest.Mock).mockRejectedValue(
+      new Error("Sai thông tin")
+    );
 
     render(<LoginForm onLoginSuccess={jest.fn()} />);
 

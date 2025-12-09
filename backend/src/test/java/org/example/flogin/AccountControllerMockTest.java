@@ -7,6 +7,7 @@ import org.example.flogin.config.SecurityConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -25,14 +26,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * 4.1 Login Mock Testing
- * a) Mock AccountService với @MockBean
- * b) Test controller với mocked service
- * c) Verify mock interactions
- */
+
 @WebMvcTest(controllers = AccountController.class)
-@Import(SecurityConfig.class)
+@AutoConfigureMockMvc(addFilters = false)
 @DisplayName("4.1 Login Mock Testing - AccountController với Mocked Service")
 class AccountControllerMockTest {
 
