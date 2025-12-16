@@ -35,9 +35,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Allow anonymous access to login and account creation endpoints
                 .requestMatchers("/api/accounts/login", "/api/accounts").permitAll()
-                // Allow unauthenticated GET access to products and categories for the frontend (dev)
                 .requestMatchers(HttpMethod.GET, "/api/products/**", "/api/categories/**").permitAll()
                 .anyRequest().authenticated()
             )

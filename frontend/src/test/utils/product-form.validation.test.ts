@@ -31,8 +31,7 @@ describe("ProductForm Validation Unit Test", () => {
   //! Error: tên sản phẩm rỗng
   test("validateProductName - tên sản phẩm rỗng", () => {
     const result = validation.validateProductName("");
-    expect(result.valid).toBe(false);
-    expect(result.error).toContain("Tên sản phẩm không được để trống");
+    expect(result).toEqual({ valid: false, error: "Tên sản phẩm không được để trống" });
   });
 
   //! Error: tên sản phẩm qúa ngắn

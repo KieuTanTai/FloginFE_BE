@@ -64,7 +64,7 @@ class AccountServiceUnitTest {
     void testCreateAccountValidationErrorUsernameEmpty() {
         AccountDTO dto = new AccountDTO(null, "", "password123", LocalDateTime.now());
         Exception ex = assertThrows(IllegalArgumentException.class, () -> accountService.createAccount(dto));
-        assertTrue(ex.getMessage().contains("Tên người dùng không được để trống"));
+        assertTrue(ex.getMessage().contains("Username cannot be empty"));
     }
 
     @Test
@@ -72,7 +72,7 @@ class AccountServiceUnitTest {
     void testCreateAccountValidationErrorUsernameShort() {
         AccountDTO dto = new AccountDTO(null, "ab", "password123", LocalDateTime.now());
         Exception ex = assertThrows(IllegalArgumentException.class, () -> accountService.createAccount(dto));
-        assertTrue(ex.getMessage().contains("ít nhất 3 ký tự"));
+        assertTrue(ex.getMessage().contains("Username must have at least 3 characters"));
     }
 
     @Test
@@ -80,7 +80,7 @@ class AccountServiceUnitTest {
     void testCreateAccountValidationErrorPasswordEmpty() {
         AccountDTO dto = new AccountDTO(null, "john_doe", "", LocalDateTime.now());
         Exception ex = assertThrows(IllegalArgumentException.class, () -> accountService.createAccount(dto));
-        assertTrue(ex.getMessage().contains("Mật khẩu không được để trống"));
+        assertTrue(ex.getMessage().contains("Password cannot be empty"));
     }
 
     @Test
@@ -88,7 +88,7 @@ class AccountServiceUnitTest {
     void testCreateAccountValidationErrorPasswordShort() {
         AccountDTO dto = new AccountDTO(null, "john_doe", "123", LocalDateTime.now());
         Exception ex = assertThrows(IllegalArgumentException.class, () -> accountService.createAccount(dto));
-        assertTrue(ex.getMessage().contains("ít nhất 6 ký tự"));
+        assertTrue(ex.getMessage().contains("Password must have at least 6 characters"));
     }
 
     @Test
@@ -97,7 +97,7 @@ class AccountServiceUnitTest {
         AccountDTO dto = new AccountDTO(null, "john_doe", "password123", LocalDateTime.now());
         when(accountRepository.existsByUsername("john_doe")).thenReturn(true);
         Exception ex = assertThrows(RuntimeException.class, () -> accountService.createAccount(dto));
-        assertTrue(ex.getMessage().contains("đã tồn tại"));
+        assertTrue(ex.getMessage().contains("Username already exists"));
     }
 
     @Test
